@@ -3,7 +3,9 @@
 /**
  * @exports mxn.util.$m as $m
  */
-var $m = mxn.util.$m;
+var $m = mxn.util.$m,
+	// will speed up references to undefined, and allows munging its name
+    undefined = undefined;
 
 /**
  * Initialise our provider. This function should only be called 
@@ -1373,7 +1375,9 @@ BoundingBox.prototype.getNorthEast = function() {
  * @type boolean
  */
 BoundingBox.prototype.isEmpty = function() {
-	return this.ne == this.sw; // is this right? FIXME
+	var box = this;
+    // works for both 0 area and undefined points
+    return box.ne.lat == box.sw.lat && box.ne.lon == box.sw.lon;
 };
 
 /**
@@ -1399,19 +1403,34 @@ BoundingBox.prototype.toSpan = function() {
  * extend extends the bounding box to include the new point
  */
 BoundingBox.prototype.extend = function(point) {
-	if(this.sw.lat > point.lat) {
-		this.sw.lat = point.lat;
+	var box = this;
+    // checking undefined here allows extending an empty box
+	if (box.sw.lat === undefined || box.sw.lat > point.lat) {
+		box.sw.lat = point.lat;
 	}
-	if(this.sw.lon > point.lon) {
-		this.sw.lon = point.lon;
+	if (box.sw.lon === undefined || box.sw.lon > point.lon) {
+		box.sw.lon = point.lon;
 	}
-	if(this.ne.lat < point.lat) {
-		this.ne.lat = point.lat;
+	if (box.ne.lat === undefined || box.ne.lat < point.lat) {
+		box.ne.lat = point.lat;
 	}
-	if(this.ne.lon < point.lon) {
-		this.ne.lon = point.lon;
+	if (box.ne.lon === undefined || box.ne.lon < point.lon) {
+		box.ne.lon = point.lon;
 	}
-	return;
+};
+
+/** 
+ * getCenter calculates the center of a bounding box. 
+ * @returns a LatLonPoint at the center of this bounding box.
+ */
+BoundingBox.prototype.getCenter = function() {
+    var box = this,
+        ne = box.getNorthEast(),
+        sw = box.getSouthWest();
+    return new LatLonPoint(
+        sw.lat + (ne.lat - sw.lat)/2,
+        sw.lon + (ne.lon - sw.lon)/2
+    );
 };
 
 //////////////////////////////
