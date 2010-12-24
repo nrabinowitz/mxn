@@ -3,9 +3,7 @@
 /**
  * @exports mxn.util.$m as $m
  */
-var $m = mxn.util.$m,
-	// will speed up references to undefined, and allows munging its name
-    undefined = undefined;
+var $m = mxn.util.$m;
 
 /**
  * Initialise our provider. This function should only be called 
