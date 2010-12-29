@@ -68,7 +68,7 @@ var Mapstraction = mxn.Mapstraction = function(element, api, debug) {
 	this.controls = [];	
 	this.loaded = {};
 	this.onload = {};
-    //this.loaded[api] = true; // FIXME does this need to be true? -ajturner
+	//this.loaded[api] = true; // FIXME does this need to be true? -ajturner
 	this.onload[api] = [];
 	
 	/**
@@ -1374,8 +1374,8 @@ BoundingBox.prototype.getNorthEast = function() {
  */
 BoundingBox.prototype.isEmpty = function() {
 	var box = this;
-    // works for both 0 area and undefined points
-    return box.ne.lat == box.sw.lat && box.ne.lon == box.sw.lon;
+	// works for both 0 area and undefined points
+	return box.ne.lat == box.sw.lat && box.ne.lon == box.sw.lon;
 };
 
 /**
@@ -1402,7 +1402,7 @@ BoundingBox.prototype.toSpan = function() {
  */
 BoundingBox.prototype.extend = function(point) {
 	var box = this;
-    // checking undefined here allows extending an empty box
+	// checking undefined here allows extending an empty box
 	if (box.sw.lat === undefined || box.sw.lat > point.lat) {
 		box.sw.lat = point.lat;
 	}
@@ -1422,13 +1422,13 @@ BoundingBox.prototype.extend = function(point) {
  * @returns a LatLonPoint at the center of this bounding box.
  */
 BoundingBox.prototype.getCenter = function() {
-    var box = this,
-        ne = box.getNorthEast(),
-        sw = box.getSouthWest();
-    return new LatLonPoint(
-        sw.lat + (ne.lat - sw.lat)/2,
-        sw.lon + (ne.lon - sw.lon)/2
-    );
+	var box = this,
+		ne = box.getNorthEast(),
+		sw = box.getSouthWest();
+	return new LatLonPoint(
+		sw.lat + (ne.lat - sw.lat)/2,
+		sw.lon + (ne.lon - sw.lon)/2
+	);
 };
 
 //////////////////////////////
@@ -1717,6 +1717,9 @@ var Polyline = mxn.Polyline = function(points) {
 	this.proprietary_polyline = false;
 	this.pllID = "mspll-"+new Date().getTime()+'-'+(Math.floor(Math.random()*Math.pow(2,16)));
 	this.invoker = new mxn.Invoker(this, 'Polyline', function(){return this.api;});
+	mxn.addEvents(this, [ 
+		'click'				// Marker clicked
+	]);
 };
 
 mxn.addProxyMethods(Polyline, [ 
@@ -1784,6 +1787,9 @@ Polyline.prototype.addData = function(options){
 				case 'fillColor':
 					this.setFillColor(options.fillColor);
 					break;
+				case 'fillOpacity':
+					this.setFillOpacity(options.fillOpacity);
+					break;
 				default:
 					this.setAttribute(sOpt, options[sOpt]);
 					break;
@@ -1814,8 +1820,8 @@ Polyline.prototype.setWidth = function(width){
 };
 
 /**
- * A float between 0.0 and 1.0
- * @param {Float} opacity
+ * Set the opacity of the line
+ * @param {Float} opacity A float between 0.0 and 1.0
  */
 Polyline.prototype.setOpacity = function(opacity){
 	this.opacity = opacity;
@@ -1835,6 +1841,14 @@ Polyline.prototype.setClosed = function(bClosed){
  */
 Polyline.prototype.setFillColor = function(sFillColor) {
 	this.fillColor = sFillColor;
+};
+
+/**
+ * Set the opacity of the fill for a closed polyline
+ * @param {Float} opacity A float between 0.0 and 1.0
+ */
+Polyline.prototype.setFillOpacity = function(opacity){
+	this.fillOpacity = opacity;
 };
 
 
