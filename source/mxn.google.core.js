@@ -163,6 +163,10 @@ Mapstraction: {
 		var map = this.maps[this.api];
 		gpolyline = polyline.toProprietary(this.api);
 		map.addOverlay(gpolyline);
+		
+		GEvent.addListener(gpolyline, 'click', function() {
+			polyline.click.fire();
+		});
 		return gpolyline;
 	},
 
@@ -503,19 +507,19 @@ Polyline: {
 		for (var i = 0,  length = this.points.length ; i< length; i++){
 			gpoints.push(this.points[i].toProprietary('google'));
 		}
-		if (this.closed	|| gpoints[0].equals(gpoints[length-1])) {
-			return new GPolygon(gpoints, this.color, this.width, this.opacity, this.fillColor || "#5462E3", this.opacity || "0.3");
+		if (this.closed) {
+			return new GPolygon(gpoints, this.color, this.width, this.opacity, this.fillColor || "#5462E3", this.fillOpacity || 0.3);
 		} else {
 			return new GPolyline(gpoints, this.color, this.width, this.opacity);
 		}
 	},
 	
 	show: function() {
-		throw 'Not implemented';
+		this.proprietary_polyline.show();
 	},
 
 	hide: function() {
-		throw 'Not implemented';
+		this.proprietary_polyline.hide();
 	}
 }
 
