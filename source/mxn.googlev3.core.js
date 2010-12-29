@@ -12,29 +12,29 @@ Mapstraction: {
 				mapTypeControl: false,
 				mapTypeControlOptions: null,
 				navigationControl: false,
-			        navigationControlOptions: null,
+					navigationControlOptions: null,
 				scrollwheel: false
 			};
 
-		    // find controls
-		    if (!this.addControlsArgs && loadoptions.addControlsArgs) {
-		    	this.addControlsArgs = loadoptions.addControlsArgs;
-		    }
-		    if (this.addControlsArgs) {
-			    if (this.addControlsArgs.zoom) {
-			    	myOptions.navigationControl = true;
-			    	if (this.addControlsArgs.zoom == 'small') {
-			    		myOptions.navigationControlOptions = {style: google.maps.NavigationControlStyle.SMALL};
-			    	}
-			    	if (this.addControlsArgs.zoom == 'large') {
-			    		myOptions.navigationControlOptions = {style: google.maps.NavigationControlStyle.ZOOM_PAN};
-			    	}
-			    }
-			    if (this.addControlsArgs.map_type) {
+			// find controls
+			if (!this.addControlsArgs && loadoptions.addControlsArgs) {
+				this.addControlsArgs = loadoptions.addControlsArgs;
+			}
+			if (this.addControlsArgs) {
+				if (this.addControlsArgs.zoom) {
+					myOptions.navigationControl = true;
+					if (this.addControlsArgs.zoom == 'small') {
+						myOptions.navigationControlOptions = {style: google.maps.NavigationControlStyle.SMALL};
+					}
+					if (this.addControlsArgs.zoom == 'large') {
+						myOptions.navigationControlOptions = {style: google.maps.NavigationControlStyle.ZOOM_PAN};
+					}
+				}
+				if (this.addControlsArgs.map_type) {
 					myOptions.mapTypeControl = true;
 					myOptions.mapTypeControlOptions = {style: google.maps.MapTypeControlStyle.DEFAULT};
-			    }
-		    }
+				}
+			}
 		
 			var map = new google.maps.Map(element, myOptions);
 				
@@ -107,7 +107,7 @@ Mapstraction: {
 			this.addControlsArgs.scale = true;
 		}
 		if (args.map_type){
-		    this.addMapTypeControls();
+			this.addMapTypeControls();
 		}
 	},
 
@@ -170,6 +170,10 @@ Mapstraction: {
 		var map = this.maps[this.api];
 		var propPolyline = polyline.toProprietary(this.api);
 		propPolyline.setMap(map);
+		// show function requires a map reference, so set it here
+		polyline.show = function() {
+			polyline.proprietary_polyline.setMap(map);
+		};
 		return propPolyline;
 	},
 
@@ -524,29 +528,42 @@ Marker: {
 Polyline: {
 
 	toProprietary: function() {
-		var points =[];
-		for(var i =0, length = this.points.length; i < length; i++) {
-			points.push(this.points[i].toProprietary('googlev3'));
+		var me = this;
+		var points = [];
+		for(var i =0, length = me.points.length; i < length; i++) {
+			points.push(me.points[i].toProprietary('googlev3'));
 		}
 
 		var polyOptions = {
 			path: points,
-			strokeColor: this.color || '#000000',
-			strokeOpacity: 1.0,
-			strokeWeight: 3
-	    };
-
-		var polyline = new google.maps.Polyline(polyOptions);
-
+			strokeColor: me.color || '#000000',
+			strokeOpacity: me.opacity || 1,
+			strokeWeight: me.width || 3
+		};
+		
+		var polyline;
+		if (me.closed) {
+			polyOptions.fillOpacity = me.fillOpacity || 0.3;
+			polyOptions.fillColor = me.fillColor || me.color;
+			polyline = new google.maps.Polygon(polyOptions);
+		}
+		else {
+			polyline = new google.maps.Polyline(polyOptions);
+		}
+		// deal with click event
+		google.maps.event.addListener(polyline, 'click', function(){
+			me.click.fire();
+		});
 		return polyline;
 	},
 	
 	show: function() {
-			throw 'Not implemented';
+		// this will be overridden in Mapstraction#addPolyline
+		throw 'Polyline not on a map';
 	},
 
 	hide: function() {
-			throw 'Not implemented';
+		this.proprietary_polyline.setMap(null);
 	}
 	
 }
