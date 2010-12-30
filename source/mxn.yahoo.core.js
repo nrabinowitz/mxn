@@ -138,6 +138,13 @@ Mapstraction: {
 		var map = this.maps[this.api];
 		var pl = polyline.toProprietary(this.api);
 		map.addOverlay(pl);
+		// implement show/hide here, as they require a map reference
+		polyline.show = function() {
+			map.addOverlay(pl);
+		};
+		polyline.hide = function() {
+			map.removeOverlay(pl);
+		};
 		return pl;
 	},
 
@@ -369,13 +376,18 @@ Marker: {
 
 Polyline: {
 
-	toProprietary: function() {		
+	toProprietary: function() {
+		var me = this;
 		var ypolyline;
 		var ypoints = [];
-		for (var i = 0, length = this.points.length ; i< length; i++){
-			ypoints.push(this.points[i].toProprietary('yahoo'));
+		for (var i = 0, length = me.points.length ; i< length; i++){
+			ypoints.push(me.points[i].toProprietary('yahoo'));
 		}
-		ypolyline = new YPolyline(ypoints,this.color,this.width,this.opacity);
+		ypolyline = new YPolyline(ypoints,me.color,me.width,me.opacity);
+		
+		YEvent.Capture(ypolyline, EventsList.MouseClick, function(event,location) {
+			me.click.fire();
+		});
 		return ypolyline;
 	},
 	
