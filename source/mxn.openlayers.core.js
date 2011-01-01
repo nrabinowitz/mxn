@@ -231,6 +231,12 @@ mxn.register('openlayers', {
 				map.addLayer(me.layers.polylines);
 			}
 			me.layers.polylines.addFeatures([pl]);
+			
+			// listen for click event (listener must be set on layer)
+			me.layers.polylines.events.register("click", pl, function(event) {
+				polyline.click.fire();
+			});
+			
 			return pl;
 		},
 
@@ -551,7 +557,7 @@ mxn.register('openlayers', {
 			}
 
 			olpolyline = new OpenLayers.Feature.Vector(ring, null, style);
-
+			
 			return olpolyline;
 		},
 

@@ -377,7 +377,7 @@ Polyline: {
 			ypoints.push(me.points[i].toProprietary('yahoo'));
 		}
 		ypolyline = new YPolyline(ypoints,me.color,me.width,me.opacity);
-		
+		// listen for click event
 		YEvent.Capture(ypolyline, EventsList.MouseClick, function(event,location) {
 			me.click.fire();
 		});

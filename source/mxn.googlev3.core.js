@@ -546,7 +546,7 @@ Polyline: {
 		else {
 			polyline = new google.maps.Polyline(polyOptions);
 		}
-		// deal with click event
+		// listen for click event
 		google.maps.event.addListener(polyline, 'click', function(){
 			me.click.fire();
 		});
