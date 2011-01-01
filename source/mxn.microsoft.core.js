@@ -144,6 +144,7 @@ Mapstraction: {
 		var pl = polyline.toProprietary(this.api);
 		pl.HideIcon();//hide the icon VE automatically displays
 		map.AddShape(pl);
+		// TODO: Add click event
 		return pl;
 	},
 
@@ -362,18 +363,28 @@ Marker: {
 Polyline: {
 
 	toProprietary: function() {
-		var mpoints =[];
-		for(var i =0, length = this.points.length; i < length; i++) {
+		var mpoints = [];
+		for (var i =0, length = this.points.length; i < length; i++) {
 			mpoints.push(this.points[i].toProprietary('microsoft'));
 		}
-		var mpolyline = new VEShape(VEShapeType.Polyline, mpoints);
-		if(this.color){
-			var color = new mxn.util.Color(this.color);
-			var opacity = (typeof(this.opacity) == 'undefined' || this.opacity === null) ? 1.0 : this.opacity;
-			var vecolor = new VEColor(color.red, color.green, color.blue, opacity);
+		var shapeType = this.closed ? VEShapeType.Polygon : VEShapeType.Polyline,
+			mpolyline = new VEShape(shapeType, mpoints);
+		// set options
+		if (this.color) {
+			var color = new mxn.util.Color(this.color),
+				opacity = (this.opacity === 'undefined' || this.opacity === null) ? 1.0 : this.opacity,
+				vecolor = new VEColor(color.red, color.green, color.blue, opacity);
 			mpolyline.SetLineColor(vecolor);
 		}
-		//	TODO ability to change line width
+		if (this.fillColor) {
+			var color = new mxn.util.Color(this.fillColor),
+				opacity = (this.fillOpacity === 'undefined' || this.fillOpacity === null) ? 0.3 : this.fillOpacity,
+				vecolor = new VEColor(color.red, color.green, color.blue, opacity);
+			mpolyline.SetFillColor(vecolor);
+		}
+		if (this.width) {
+			mpolyline.SetLineWidth(this.width);
+		}
 		return mpolyline;
 	},
 		
