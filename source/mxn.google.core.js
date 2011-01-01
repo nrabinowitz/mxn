@@ -444,6 +444,7 @@ Marker: {
 				event_action = "click";
 			}
 			GEvent.addListener(gmarker, event_action, function() {
+				// FIXME: This is never called! Click action is handled by mxn.Mapstraction object
 				gmarker.openInfoWindowHtml(me.infoBubble, {
 					maxWidth: 100
 				});

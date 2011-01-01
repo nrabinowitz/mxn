@@ -170,10 +170,6 @@ Mapstraction: {
 		var map = this.maps[this.api];
 		var propPolyline = polyline.toProprietary(this.api);
 		propPolyline.setMap(map);
-		// show function requires a map reference, so set it here
-		polyline.show = function() {
-			polyline.proprietary_polyline.setMap(map);
-		};
 		return propPolyline;
 	},
 
@@ -558,8 +554,7 @@ Polyline: {
 	},
 	
 	show: function() {
-		// this will be overridden in Mapstraction#addPolyline
-		throw 'Polyline not on a map';
+		this.proprietary_polyline.setMap(this.map);
 	},
 
 	hide: function() {

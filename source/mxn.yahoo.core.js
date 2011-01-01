@@ -138,13 +138,6 @@ Mapstraction: {
 		var map = this.maps[this.api];
 		var pl = polyline.toProprietary(this.api);
 		map.addOverlay(pl);
-		// implement show/hide here, as they require a map reference
-		polyline.show = function() {
-			map.addOverlay(pl);
-		};
-		polyline.hide = function() {
-			map.removeOverlay(pl);
-		};
 		return pl;
 	},
 
@@ -392,11 +385,11 @@ Polyline: {
 	},
 	
 	show: function() {
-		throw 'Not implemented';
+		this.map.addOverlay(this.proprietary_polyline);
 	},
 
 	hide: function() {
-		throw 'Not implemented';
+		this.map.removeOverlay(this.proprietary_polyline);
 	}
 	
 }

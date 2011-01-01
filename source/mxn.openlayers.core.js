@@ -222,13 +222,15 @@ mxn.register('openlayers', {
 		},
 
 		addPolyline: function(polyline, old) {
-			var map = this.maps[this.api];
-			var pl = polyline.toProprietary(this.api);
-			if (!this.layers.polylines) {
-				this.layers.polylines = new OpenLayers.Layer.Vector('polylines');
-				map.addLayer(this.layers.polylines);
+			var me = this;
+			var map = me.maps[me.api];
+			var pl = polyline.toProprietary(me.api);
+			if (!me.layers.polylines) {
+				// FIXME: click events hitting this layer don't bubble down to markers
+				me.layers.polylines = new OpenLayers.Layer.Vector('polylines');
+				map.addLayer(me.layers.polylines);
 			}
-			this.layers.polylines.addFeatures([pl]);
+			me.layers.polylines.addFeatures([pl]);
 			return pl;
 		},
 
@@ -280,7 +282,7 @@ mxn.register('openlayers', {
 
 		setMapType: function(type) {
 			var map = this.maps[this.api];
-			throw 'Not implemented (setMapType)';
+			// throw 'Not implemented (setMapType)';
 
 			// switch(type) {
 			//	 case mxn.Mapstraction.ROAD:
@@ -435,84 +437,74 @@ mxn.register('openlayers', {
 	Marker: {
 
 		toProprietary: function() {
-			var size, anchor, icon;
-			if(this.iconSize) {
-				size = new OpenLayers.Size(this.iconSize[0], this.iconSize[1]);
-			}
-			else {
-				size = new OpenLayers.Size(21,25);
-			}
+			var me = this,
+				w = me.iconSize ? me.iconSize[0] : 21,
+				h =  me.iconSize ? me.iconSize[1] : 25,
+				size = new OpenLayers.Size(w, h),
+				anchorx = me.iconAnchor ? me.iconAnchor[0] : -(size.w/2),
+				anchory = me.iconAnchor ? me.iconAnchor[1] : -size.h,
+				anchor = new OpenLayers.Pixel(anchorx, anchory),
+				iconUrl = me.iconUrl || 'http://openlayers.org/dev/img/marker-gold.png',
+				hoverIconUrl = me.hoverIconUrl,
+				icon = new OpenLayers.Icon(iconUrl, size, anchor),
+				marker = new OpenLayers.Marker(me.location.toProprietary("openlayers"), icon);
 
-			if(this.iconAnchor) {
-				anchor = new OpenLayers.Pixel(this.iconAnchor[0], this.iconAnchor[1]);
-			}
-			else {
-				// FIXME: hard-coding the anchor point
-				anchor = new OpenLayers.Pixel(-(size.w/2), -size.h);
-			}
-
-			if(this.iconUrl) {
-				icon = new OpenLayers.Icon(this.iconUrl, size, anchor);
-			}
-			else {
-				icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-gold.png', size, anchor);
-			}
-			var marker = new OpenLayers.Marker(this.location.toProprietary("openlayers"), icon);
-
-			if(this.infoBubble) {
-				var popup = new OpenLayers.Popup(null,
-					this.location.toProprietary("openlayers"),
-					new OpenLayers.Size(100,100),
-					this.infoBubble,
-					true
-				);
-				popup.autoSize = true;
-				var theMap = this.map;
-				if(this.hover) {
-					marker.events.register("mouseover", marker, function(event) {
-						theMap.addPopup(popup);
-						popup.show();
-					});
-					marker.events.register("mouseout", marker, function(event) {
-						popup.hide();
-						theMap.removePopup(popup);
-					});
-				}
-				else {
-					var shown = false;
-					marker.events.register("mousedown", marker, function(event) {
-						if (shown) {
-							popup.hide();
-							theMap.removePopup(popup);
-							shown = false;
-						} else {
-							theMap.addPopup(popup);
-							popup.show();
-							shown = true;
-						}
-					});
-				}
-			}
-
-			if(this.hoverIconUrl) {
-				icon = this.iconUrl || 'http://openlayers.org/dev/img/marker-gold.png';
-				hovericon = this.hoverIconUrl;
+			// set event listeners
+			
+			if (me.hover) {
 				marker.events.register("mouseover", marker, function(event) {
-					marker.setUrl(hovericon);
+					me.openBubble();
 				});
 				marker.events.register("mouseout", marker, function(event) {
-					marker.setUrl(icon);
+					me.closeBubble();
 				});
 			}
 
-			if(this.infoDiv){
-				// TODO
+			if (hoverIconUrl) {
+				marker.events.register("mouseover", marker, function(event) {
+					marker.setUrl(hoverIconUrl);
+				});
+				marker.events.register("mouseout", marker, function(event) {
+					marker.setUrl(iconUrl);
+				});
 			}
+			
+			marker.events.register('click', marker, function() {
+				me.click.fire();
+			});
+			
 			return marker;
 		},
 
-		openBubble: function() {		
-			// TODO: Add provider code
+		openBubble: function() {
+			// XXX: Do something if no infoBubble too
+			if (this.infoDiv){
+				document.getElementById(me.div).innerHTML = me.infoDiv;
+			}
+			else if (this.infoBubble) {
+				// create popup and save
+				var popup = this.proprietary_popup = new  OpenLayers.Popup.FramedCloud(
+					null,
+					this.location.toProprietary("openlayers"),
+					new OpenLayers.Size(300,200),
+					this.infoBubble,
+					this.proprietary_marker.icon,
+					true
+				);
+				popup.autoSize = true;
+				this.map.addPopup(popup);
+				popup.show();
+				this.popupVisible = true;
+			}
+		},
+
+		closeBubble: function() {
+			var popup = this.proprietary_popup;
+			if (popup && this.popupVisible) {
+				popup.hide();
+				this.map.removePopup(popup);
+				this.popupVisible = false;
+			}
 		},
 
 		hide: function() {
@@ -564,11 +556,21 @@ mxn.register('openlayers', {
 		},
 
 		show: function() {
-			throw 'Not implemented';
+			var map = this.map,
+				layers = map && map.getLayersByName('polylines'),
+				polyline = this.proprietary_polyline;
+			if (polyline && layers && layers[0]) {
+				layers[0].addFeatures([polyline]);
+			}
 		},
 
 		hide: function() {
-			throw 'Not implemented';
+			var map = this.map,
+				layers = map && map.getLayersByName('polylines'),
+				polyline = this.proprietary_polyline;
+			if (polyline && layers && layers[0]) {
+				layers[0].removeFeatures([polyline]);
+			}
 		}
 
 	}

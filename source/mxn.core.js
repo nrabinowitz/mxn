@@ -1718,7 +1718,7 @@ var Polyline = mxn.Polyline = function(points) {
 	this.pllID = "mspll-"+new Date().getTime()+'-'+(Math.floor(Math.random()*Math.pow(2,16)));
 	this.invoker = new mxn.Invoker(this, 'Polyline', function(){return this.api;});
 	mxn.addEvents(this, [ 
-		'click'				// Marker clicked
+		'click'				// Polyline clicked
 	]);
 };
 
