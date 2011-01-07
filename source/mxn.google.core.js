@@ -267,30 +267,18 @@ Mapstraction: {
 		map.setCenter(gbounds.getCenter(), map.getBoundsZoomLevel(gbounds)); 
 	},
 
-	addImageOverlay: function(id, src, opacity, west, south, east, north, oContext) {
-		var map = this.maps[this.api];
-		map.getPane(G_MAP_MAP_PANE).appendChild(oContext.imgElm);
-		this.setImageOpacity(id, opacity);
-		this.setImagePosition(id);
-		GEvent.bind(map, "zoomend", this, function() {
-			this.setImagePosition(id);
-		});
-		GEvent.bind(map, "moveend", this, function() {
-			this.setImagePosition(id);
-		});
+	addImageOverlay: function(id, src, opacity, west, south, east, north) {
+		var map = this.maps[this.api],
+			imageBounds = new GBounds(
+				new GLatLng(south,west),
+				new GLatLng(north,east)
+			),
+			overlay = new GGroundOverlay(src, imageBounds);
+		map.addOverlay(overlay);
 	},
 
 	setImagePosition: function(id, oContext) {
-		var map = this.maps[this.api];
-		var topLeftPoint; var bottomRightPoint;
-
-		topLeftPoint = map.fromLatLngToDivPixel( new GLatLng(oContext.latLng.top, oContext.latLng.left) );
-		bottomRightPoint = map.fromLatLngToDivPixel( new GLatLng(oContext.latLng.bottom, oContext.latLng.right) );
-		
-		oContext.pixels.top = topLeftPoint.y;
-		oContext.pixels.left = topLeftPoint.x;
-		oContext.pixels.bottom = bottomRightPoint.y;
-		oContext.pixels.right = bottomRightPoint.x;
+		// do nothing
 	},
 	
 	addOverlay: function(url, autoCenterAndZoom) {

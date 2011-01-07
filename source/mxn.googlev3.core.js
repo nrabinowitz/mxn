@@ -270,7 +270,7 @@ Mapstraction: {
 		map.fitBounds(gLatLngBounds);
 	},
 
-	addImageOverlay: function(id, src, opacity, west, south, east, north, oContext) {
+	addImageOverlay: function(id, src, opacity, west, south, east, north) {
 		var map = this.maps[this.api];
 		
 		var imageBounds = new google.maps.LatLngBounds(
