@@ -1476,6 +1476,13 @@ mxn.addProxyMethods(Marker, [
 	'hide',
 	
 	/**
+	 * Whether the marker is hidden.
+	 * @name mxn.Marker#isHidden
+	 * @function
+	 */
+	'isHidden',
+	
+	/**
 	 * Open the marker's info bubble.
 	 * @name mxn.Marker#openBubble
 	 * @function
@@ -1748,6 +1755,13 @@ mxn.addProxyMethods(Polyline, [
 	'show',
 	
 	/**
+	 * Whether the polyline is hidden.
+	 * @name mxn.Polyline#isHidden
+	 * @function
+	 */
+	'isHidden',
+	
+	/**
 	 * Converts the current Polyline to a proprietary one for the API specified by apiId.
 	 * @name mxn.Polyline#toProprietary
 	 * @function
@@ -1765,7 +1779,7 @@ mxn.addProxyMethods(Polyline, [
 ]);
 
 /**
- * addData conviniently set a hash of options on a polyline
+ * addData convieniently set a hash of options on a polyline
  * @param {Object} options An object literal hash of key value pairs. Keys are: color, width, opacity, closed, fillColor.
  */
 Polyline.prototype.addData = function(options){

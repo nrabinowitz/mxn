@@ -2,7 +2,7 @@ mxn.register('microsoft', {
 
 Mapstraction: {
 	
-	init: function(element, api) {		
+	init: function(element, api) {
 		var me = this;
 		if (!VEMap) {
 			throw api + ' map script not imported';
@@ -26,14 +26,14 @@ Mapstraction: {
 		});
 		this.maps[api].AttachEvent('onendzoom', function(event){
 			me.moveendHandler(me);
-			me.changeZoom.fire();				
+			me.changeZoom.fire();
 		});
 		this.maps[api].AttachEvent('onendpan', function(event){
 			me.moveendHandler(me);
 			me.endPan.fire();
 		});
 		this.maps[api].AttachEvent('onchangeview', function(event){
-			me.endPan.fire();				
+			me.endPan.fire();
 		});
 		this.maps[api].LoadMap();
 		document.getElementById("MSVE_obliqueNotification").style.visibility = "hidden"; 
@@ -370,16 +370,17 @@ Polyline: {
 		var shapeType = this.closed ? VEShapeType.Polygon : VEShapeType.Polyline,
 			mpolyline = new VEShape(shapeType, mpoints);
 		// set options
+        var color, opacity, vecolor;
 		if (this.color) {
-			var color = new mxn.util.Color(this.color),
-				opacity = (this.opacity === 'undefined' || this.opacity === null) ? 1.0 : this.opacity,
-				vecolor = new VEColor(color.red, color.green, color.blue, opacity);
+			color = new mxn.util.Color(this.color);
+            opacity = (this.opacity === 'undefined' || this.opacity === null) ? 1.0 : this.opacity;
+            vecolor = new VEColor(color.red, color.green, color.blue, opacity);
 			mpolyline.SetLineColor(vecolor);
 		}
 		if (this.fillColor) {
-			var color = new mxn.util.Color(this.fillColor),
-				opacity = (this.fillOpacity === 'undefined' || this.fillOpacity === null) ? 0.3 : this.fillOpacity,
-				vecolor = new VEColor(color.red, color.green, color.blue, opacity);
+			color = new mxn.util.Color(this.fillColor);
+            opacity = (this.fillOpacity === 'undefined' || this.fillOpacity === null) ? 0.3 : this.fillOpacity;
+            vecolor = new VEColor(color.red, color.green, color.blue, opacity);
 			mpolyline.SetFillColor(vecolor);
 		}
 		if (this.width) {
