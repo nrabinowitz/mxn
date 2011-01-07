@@ -520,6 +520,10 @@ mxn.register('openlayers', {
 		show: function() {
 			this.proprietary_marker.display( true );
 		},
+	
+		isHidden: function() {
+			return this.proprietary_marker.icon.imageDiv.style.display == "none";
+		},
 
 		update: function() {
 			// TODO: Add provider code
@@ -562,11 +566,14 @@ mxn.register('openlayers', {
 		},
 
 		show: function() {
-			var map = this.map,
-				layers = map && map.getLayersByName('polylines'),
-				polyline = this.proprietary_polyline;
-			if (polyline && layers && layers[0]) {
-				layers[0].addFeatures([polyline]);
+			if (this.hidden) {
+				var map = this.map,
+					layers = map && map.getLayersByName('polylines'),
+					polyline = this.proprietary_polyline;
+				if (polyline && layers && layers[0]) {
+					layers[0].addFeatures([polyline]);
+					this.hidden = false;
+				}
 			}
 		},
 
@@ -576,7 +583,12 @@ mxn.register('openlayers', {
 				polyline = this.proprietary_polyline;
 			if (polyline && layers && layers[0]) {
 				layers[0].removeFeatures([polyline]);
+				this.hidden = true;
 			}
+		},
+	
+		isHidden: function() {
+			return boolean(this.hidden);
 		}
 
 	}

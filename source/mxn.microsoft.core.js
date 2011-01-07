@@ -348,10 +348,16 @@ Marker: {
 
 	hide: function() {
 		this.proprietary_marker.Hide();
+		this.hidden = true;
 	},
 
 	show: function() {
 		this.proprietary_marker.Show();
+		this.hidden = false;
+	},
+	
+	isHidden: function() {
+		return boolean(this.hidden);
 	},
 
 	update: function() {
@@ -391,10 +397,16 @@ Polyline: {
 		
 	show: function() {
 		this.proprietary_polyline.Show();
+		this.hidden = false;
 	},
 
 	hide: function() {
 		this.proprietary_polyline.Hide();
+		this.hidden = true;
+	},
+	
+	isHidden: function() {
+		return boolean(this.hidden);
 	}
 	
 }

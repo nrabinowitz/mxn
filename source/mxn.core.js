@@ -1758,6 +1758,7 @@ mxn.addProxyMethods(Polyline, [
 	 * Whether the polyline is hidden.
 	 * @name mxn.Polyline#isHidden
 	 * @function
+	 * @returns True if the polyline is hidden
 	 */
 	'isHidden',
 	

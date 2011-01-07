@@ -360,6 +360,10 @@ Marker: {
 	show: function() {
 		this.proprietary_marker.unhide();
 	},
+	
+	isHidden: function() {
+		return this.proprietary_marker.ishidden();
+	},
 
 	update: function() {
 		throw 'Not implemented';
@@ -386,10 +390,16 @@ Polyline: {
 	
 	show: function() {
 		this.map.addOverlay(this.proprietary_polyline);
+		this.hidden = false;
 	},
 
 	hide: function() {
 		this.map.removeOverlay(this.proprietary_polyline);
+		this.hidden = true;
+	},
+	
+	isHidden: function() {
+		return boolean(this.hidden);
 	}
 	
 }

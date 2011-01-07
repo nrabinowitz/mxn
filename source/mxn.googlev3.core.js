@@ -512,6 +512,10 @@ Marker: {
 	show: function() {
 		this.proprietary_marker.setOptions({visible:true});
 	},
+	
+	isHidden: function() {
+		return !this.proprietary_marker.getVisible();
+	},
 
 	update: function() {
 		var point = new mxn.LatLonPoint();
@@ -555,12 +559,17 @@ Polyline: {
 	
 	show: function() {
 		this.proprietary_polyline.setMap(this.map);
+		this.hidden = false;
 	},
 
 	hide: function() {
 		this.proprietary_polyline.setMap(null);
-	}
+		this.hidden = true;
+	},
 	
+	isHidden: function() {
+		return boolean(this.hidden);
+	}
 }
 
 });

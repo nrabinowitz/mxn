@@ -492,6 +492,10 @@ Marker: {
 	show: function() {
 		this.proprietary_marker.show();
 	},
+	
+	isHidden: function() {
+		return this.proprietary_marker.isHidden();
+	},
 
 	update: function() {
 		point = new mxn.LatLonPoint();
@@ -516,12 +520,22 @@ Polyline: {
 	},
 	
 	show: function() {
-		this.proprietary_polyline.show();
+		var pl = this.proprietary_polyline;
+		if (pl.supportsHide()) {
+			pl.show();
+		}
 	},
 
 	hide: function() {
-		this.proprietary_polyline.hide();
-	}
+		var pl = this.proprietary_polyline;
+		if (pl.supportsHide()) {
+			pl.hide();
+		}
+	},
+	
+	isHidden: function() {
+		return this.proprietary_polyline.isHidden();
+	},
 }
 
 });
