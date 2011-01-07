@@ -535,7 +535,7 @@ Polyline: {
 	
 	isHidden: function() {
 		return this.proprietary_polyline.isHidden();
-	},
+	}
 }
 
 });

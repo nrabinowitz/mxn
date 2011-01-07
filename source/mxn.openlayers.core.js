@@ -588,7 +588,7 @@ mxn.register('openlayers', {
 		},
 	
 		isHidden: function() {
-			return boolean(this.hidden);
+			return this.hidden || false;
 		}
 
 	}

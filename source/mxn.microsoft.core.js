@@ -357,7 +357,7 @@ Marker: {
 	},
 	
 	isHidden: function() {
-		return boolean(this.hidden);
+		return this.hidden || false;
 	},
 
 	update: function() {
@@ -406,7 +406,7 @@ Polyline: {
 	},
 	
 	isHidden: function() {
-		return boolean(this.hidden);
+		return this.hidden || false;
 	}
 	
 }

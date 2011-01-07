@@ -399,7 +399,7 @@ Polyline: {
 	},
 	
 	isHidden: function() {
-		return boolean(this.hidden);
+		return this.hidden || false;
 	}
 	
 }
