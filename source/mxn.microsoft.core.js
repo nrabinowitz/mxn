@@ -315,7 +315,6 @@ Marker: {
 	toProprietary: function() {
 		var mmarker = new VEShape(VEShapeType.Pushpin, this.location.toProprietary('microsoft'));
 		mmarker.SetTitle(this.labelText);
-		mmarker.SetDescription(this.infoBubble);
 		
 		if (this.iconUrl) {
 			var customIcon = new VECustomIconSpecification();
@@ -341,6 +340,8 @@ Marker: {
 		if (!this.map) {
 			throw 'Marker must be added to map in order to display infobox';
 		}
+		this.proprietary_marker.SetDescription(this.infoBubble);
+		this.map.HideInfoBox(); // otherwise the position won't update
 		this.map.ShowInfoBox(this.proprietary_marker);
 	},
 	
