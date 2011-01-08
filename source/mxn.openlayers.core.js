@@ -544,9 +544,6 @@ mxn.register('openlayers', {
 				fillColor: this.fillColor || "#000000",
 				fillOpacity: this.getAttribute('fillOpacity') || 0.2
 			};
-
-			//TODO Handle closed attribute
-
 			for (var i = 0, length = this.points.length ; i< length; i++){
 				olpoint = this.points[i].toProprietary("openlayers");
 				olpoints.push(new OpenLayers.Geometry.Point(olpoint.lon, olpoint.lat));
@@ -566,14 +563,11 @@ mxn.register('openlayers', {
 		},
 
 		show: function() {
-			if (this.hidden) {
-				var map = this.map,
-					layers = map && map.getLayersByName('polylines'),
-					polyline = this.proprietary_polyline;
-				if (polyline && layers && layers[0]) {
-					layers[0].addFeatures([polyline]);
-					this.hidden = false;
-				}
+			var map = this.map,
+				layers = map && map.getLayersByName('polylines'),
+				polyline = this.proprietary_polyline;
+			if (polyline && layers && layers[0] && this.isHidden()) {
+				layers[0].addFeatures([polyline]);
 			}
 		},
 
@@ -581,14 +575,14 @@ mxn.register('openlayers', {
 			var map = this.map,
 				layers = map && map.getLayersByName('polylines'),
 				polyline = this.proprietary_polyline;
-			if (polyline && layers && layers[0]) {
+			if (polyline && layers && layers[0] && !this.isHidden()) {
 				layers[0].removeFeatures([polyline]);
 				this.hidden = true;
 			}
 		},
 	
 		isHidden: function() {
-			return this.hidden || false;
+			return this.proprietary_polyline.getVisibility();
 		}
 
 	}

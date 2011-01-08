@@ -1815,6 +1815,7 @@ Polyline.prototype.addData = function(options){
 
 Polyline.prototype.setChild = function(some_proprietary_polyline) {
 	this.proprietary_polyline = some_proprietary_polyline;
+	some_proprietary_polyline.mapstraction_polyline = this;
 	this.onmap = true;
 };
 

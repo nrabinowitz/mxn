@@ -13,8 +13,13 @@ Mapstraction: {
 			me.clickHandler();
 			var map = me.maps[me.api];
 			var shape = map.GetShapeByID(event.elementID);
-			if (shape && shape.mapstraction_marker) {
-				shape.mapstraction_marker.click.fire();   
+			if (shape) {
+				if (shape.mapstraction_marker) {
+					shape.mapstraction_marker.click.fire();
+				}
+				if (shape.mapstraction_polyline) {
+					shape.mapstraction_polyline.click.fire();
+				}
 			} 
 			else {
 				var x = event.mapX;
@@ -397,16 +402,14 @@ Polyline: {
 		
 	show: function() {
 		this.proprietary_polyline.Show();
-		this.hidden = false;
 	},
 
 	hide: function() {
 		this.proprietary_polyline.Hide();
-		this.hidden = true;
 	},
 	
 	isHidden: function() {
-		return this.hidden || false;
+		return this.proprietary_polyline.Visibility;
 	}
 	
 }
