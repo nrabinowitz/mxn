@@ -366,6 +366,22 @@ Mapstraction: {
 			});
 			locDisp.innerHTML = '0.0000 / 0.0000';
 		}
+	},
+
+	openBubble: function(point, content) {
+		var map = this.maps[this.api],
+			iw = new google.maps.InfoWindow({
+				position: point.toProprietary(this.api),
+				content: content
+			});
+		this.bubble = iw;
+		iw.open(map);
+	},
+
+	closeBubble: function() {
+		if (this.bubble) {
+			this.bubble.close();
+		}
 	}
 },
 

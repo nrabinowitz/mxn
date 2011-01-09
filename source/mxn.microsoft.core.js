@@ -294,6 +294,24 @@ Mapstraction: {
 			});
 			locDisp.innerHTML = "0.0000 / 0.0000";
 		}
+	},
+
+	openBubble: function(point, content) {
+		var map = this.maps[this.api],
+			// Bing requires a shape reference
+			shape = new VEShape(VEShapeType.Pushpin, point.toProprietary(this.api));
+		shape.SetDescription(content);
+		map.AddShape(shape);
+		shape.Hide();
+		map.HideInfoBox(); // otherwise the position won't update
+		map.ShowInfoBox(shape);
+		this.bubble_shape = shape;
+	},
+
+	closeBubble: function() {
+		var map = this.maps[this.api];
+		map.HideInfoBox();
+		map.DeleteShape(this.bubble_shape);
 	}
 },
 

@@ -332,7 +332,25 @@ mxn.addProxyMethods(Mapstraction, [
 	 * @function
 	 * @param {tile_url} url of the tile layer that was created.
 	 */
-	'toggleTileLayer'
+	'toggleTileLayer',
+	
+	/**
+	 * Opens an info bubble at a given point, with given content
+	 * @name mxn.Mapstraction#openBubble
+	 * @function
+	 * @param {point} LatLonPoint where the window should open
+	 * @param {content} Content string for the window
+	 */
+	'openBubble',
+	
+	/**
+	 * Closes the map-based info bubble, if open
+	 * @name mxn.Mapstraction#closeBubble
+	 * @function
+	 * @param {point} LatLonPoint where the window should open
+	 * @param {content} Content string for the window
+	 */
+	'closeBubble'
 ]);
 
 /**
@@ -1375,7 +1393,8 @@ BoundingBox.prototype.getNorthEast = function() {
 BoundingBox.prototype.isEmpty = function() {
 	var box = this;
 	// works for both 0 area and undefined points
-	return box.ne.lat == box.sw.lat && box.ne.lon == box.sw.lon;
+	return (box.ne.lat == box.sw.lat && box.ne.lon == box.sw.lon) ||
+        (isNaN(box.ne.lat) || isNaN(box.sw.lat));
 };
 
 /**

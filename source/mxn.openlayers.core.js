@@ -348,15 +348,16 @@ mxn.register('openlayers', {
 		},
 
 		addImageOverlay: function(id, src, opacity, west, south, east, north, oContext) {
-			var map = this.maps[this.api];
-			var bounds = new OpenLayers.Bounds();
+			var map = this.maps[this.api],
+				bounds = new OpenLayers.Bounds(),
+				imgElm = oContext.imgElm;
 			bounds.extend(new mxn.LatLonPoint(south,west).toProprietary(this.api));
 			bounds.extend(new mxn.LatLonPoint(north,east).toProprietary(this.api));
 			var overlay = new OpenLayers.Layer.Image(
 				id, 
 				src,
 				bounds,
-				new OpenLayers.Size(oContext.imgElm.width, oContext.imgElm.height),
+				new OpenLayers.Size(imgElm.width, imgElm.height),
 				{'isBaseLayer': false, 'alwaysInRange': true}
 			);
 			map.addLayer(overlay);
@@ -418,6 +419,27 @@ mxn.register('openlayers', {
 			var map = this.maps[this.api];
 
 			// TODO: Add provider code	
+		},
+
+		openBubble: function(point, content) {
+			var map = this.maps[this.api],
+				popup = new OpenLayers.Popup.FramedCloud(
+					null,
+					point.toProprietary("openlayers"),
+					new OpenLayers.Size(300,200),
+					content,
+					null,
+					true
+				);
+			popup.autoSize = true;
+			this.bubble = popup;
+			map.addPopup(popup);
+		},
+
+		closeBubble: function() {
+			if (this.bubble) {
+				this.bubble.destroy();
+			}
 		}
 	},
 
@@ -489,7 +511,7 @@ mxn.register('openlayers', {
 			}
 			else if (this.infoBubble) {
 				// create popup and save
-				var popup = this.proprietary_popup = new  OpenLayers.Popup.FramedCloud(
+				var popup = this.proprietary_popup = new OpenLayers.Popup.FramedCloud(
 					null,
 					this.location.toProprietary("openlayers"),
 					new OpenLayers.Size(300,200),

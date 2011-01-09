@@ -250,7 +250,7 @@ mxn.Invoker = function(aobj, asClassName, afnApiIdGetter){
 		if(typeof(oOptions) == 'undefined'){
 			oOptions = defOpts;
 		}
-						
+		
 		var sApiId;
 		if(oOptions.overrideApi){
 			sApiId = args.shift();
@@ -271,7 +271,7 @@ mxn.Invoker = function(aobj, asClassName, afnApiIdGetter){
 			// we've got no implementation but have got a fallback function
 			return oOptions.fallback.apply(obj, args);
 		}
-		else {				
+		else {
 			return invoke(sApiId, sClassName, sMethodName, obj, args);
 		}
 		

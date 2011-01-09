@@ -225,6 +225,16 @@ Mapstraction: {
 		var map = this.maps[this.api];
 
 		// TODO: Add provider code	
+	},
+
+	openBubble: function(point, content) {
+		var map = this.maps[this.api];
+		// TODO: Add provider code
+	},
+
+	closeBubble: function() {
+		var map = this.maps[this.api];
+		// TODO: Add provider code
 	}
 },
 
@@ -250,11 +260,18 @@ Marker: {
 		// TODO: Add provider code
 	},
 
+	closeBubble: function() {		
+		// TODO: Add provider code
+	},
+
 	hide: function() {
 		// TODO: Add provider code
 	},
 
 	show: function() {
+	},
+	
+	isHidden: function() {
 		// TODO: Add provider code
 	},
 
@@ -275,6 +292,10 @@ Polyline: {
 	},
 
 	hide: function() {
+		// TODO: Add provider code
+	},
+	
+	isHidden: function() {
 		// TODO: Add provider code
 	}
 	

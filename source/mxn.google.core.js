@@ -361,6 +361,16 @@ Mapstraction: {
 			});
 			locDisp.innerHTML = '0.0000 / 0.0000';
 		}
+	},
+
+	openBubble: function(point, content) {
+		var map = this.maps[this.api];
+		map.openInfoWindowHtml(point.toProprietary(this.api), content);
+	},
+
+	closeBubble: function() {
+		var map = this.maps[this.api];
+		map.closeInfoWindow();
 	}
 },
 
