@@ -234,6 +234,7 @@ mxn.register('openlayers', {
 			
 			// listen for click event (listener must be set on layer)
 			me.layers.polylines.events.register("click", pl, function(event) {
+				console.log("clicked?")
 				polyline.click.fire();
 			});
 			
@@ -422,6 +423,10 @@ mxn.register('openlayers', {
 		},
 
 		openBubble: function(point, content) {
+			if (this.bubble) {
+				// one at a time
+				this.bubble.destroy();
+			}
 			var map = this.maps[this.api],
 				popup = new OpenLayers.Popup.FramedCloud(
 					null,
@@ -588,7 +593,7 @@ mxn.register('openlayers', {
 			var map = this.map,
 				layers = map && map.getLayersByName('polylines'),
 				polyline = this.proprietary_polyline;
-			if (polyline && layers && layers[0] && this.isHidden()) {
+			if (polyline && layers && layers[0]) {
 				layers[0].addFeatures([polyline]);
 			}
 		},
@@ -597,7 +602,7 @@ mxn.register('openlayers', {
 			var map = this.map,
 				layers = map && map.getLayersByName('polylines'),
 				polyline = this.proprietary_polyline;
-			if (polyline && layers && layers[0] && !this.isHidden()) {
+			if (polyline && layers && layers[0]) {
 				layers[0].removeFeatures([polyline]);
 				this.hidden = true;
 			}
