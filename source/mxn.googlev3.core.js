@@ -369,6 +369,10 @@ Mapstraction: {
 	},
 
 	openBubble: function(point, content) {
+		if (this.bubble) {
+			// only one map bubble at a time - it'll make life easier
+			this.bubble.close();
+		}
 		var map = this.maps[this.api],
 			iw = new google.maps.InfoWindow({
 				position: point.toProprietary(this.api),
