@@ -269,11 +269,11 @@ Mapstraction: {
 
 	addImageOverlay: function(id, src, opacity, west, south, east, north) {
 		var map = this.maps[this.api],
-			imageBounds = new GBounds(
+			imageBounds = new GLatLngBounds(
 				new GLatLng(south,west),
 				new GLatLng(north,east)
 			),
-			overlay = new GGroundOverlay(src, imageBounds);
+            overlay = new GGroundOverlay(src, imageBounds);
 		map.addOverlay(overlay);
 	},
 
