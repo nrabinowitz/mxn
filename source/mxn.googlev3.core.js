@@ -507,21 +507,25 @@ Marker: {
 	},
 
 	openBubble: function() {
-		var infowindow = new google.maps.InfoWindow({
-	   		content: this.infoBubble
-		});
-		google.maps.event.addListener(infowindow, 'closeclick', function(closedWindow) {
-			// TODO: set proprietary_infowindow to null, fire closeInfoBubble
-		});
-		this.openInfoBubble.fire({'marker': this});
-		infowindow.open(this.map,this.proprietary_marker);
-		this.proprietary_infowindow = infowindow; // Save so we can close it later
+		if (!this.proprietary_infowindow) {
+			var me = this,
+				infowindow = new google.maps.InfoWindow({
+					content: this.infoBubble
+				});
+			google.maps.event.addListener(infowindow, 'closeclick', function(closedWindow) {
+				me.closeBubble();
+			});
+			this.openInfoBubble.fire({'marker': me});
+			infowindow.open(this.map,this.proprietary_marker);
+			this.proprietary_infowindow = infowindow; // Save so we can close it later
+		}
 	},
 	
 	closeBubble: function() {
 		if (this.hasOwnProperty('proprietary_infowindow')) {
 			this.proprietary_infowindow.close();
 			this.closeInfoBubble.fire({'marker': this});
+			this.proprietary_infowindow = null;
 		}
 	},
 
