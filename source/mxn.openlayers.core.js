@@ -234,7 +234,6 @@ mxn.register('openlayers', {
 			
 			// listen for click event (listener must be set on layer)
 			me.layers.polylines.events.register("click", pl, function(event) {
-				console.log("clicked?")
 				polyline.click.fire();
 			});
 			
