@@ -522,7 +522,7 @@ Marker: {
 	},
 	
 	closeBubble: function() {
-		if (this.hasOwnProperty('proprietary_infowindow')) {
+		if (this.proprietary_infowindow) {
 			this.proprietary_infowindow.close();
 			this.closeInfoBubble.fire({'marker': this});
 			this.proprietary_infowindow = null;
