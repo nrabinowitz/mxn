@@ -12,7 +12,7 @@ Mapstraction: {
 				mapTypeControl: false,
 				mapTypeControlOptions: null,
 				navigationControl: false,
-					navigationControlOptions: null,
+				navigationControlOptions: null,
 				scrollwheel: false
 			};
 
@@ -37,7 +37,20 @@ Mapstraction: {
 			}
 		
 			var map = new google.maps.Map(element, myOptions);
-				
+			
+			var fireOnNextIdle = [];
+			
+			google.maps.event.addListener(map, 'idle', function() {
+				var fireListCount = fireOnNextIdle.length;
+				if(fireListCount > 0) {
+					var fireList = fireOnNextIdle.splice(0, fireListCount);
+					var handler;
+					while((handler = fireList.shift())){
+						handler();
+					}
+				}
+			});
+			
 			// deal with click
 			google.maps.event.addListener(map, 'click', function(location){
 				me.click.fire({'location': 
@@ -47,18 +60,26 @@ Mapstraction: {
 
 			// deal with zoom change
 			google.maps.event.addListener(map, 'zoom_changed', function(){
-				me.changeZoom.fire();
+				// zoom_changed fires before the zooming has finished so we 
+				// wait for the next idle event before firing our changezoom
+				// so that method calls report the correct values
+				fireOnNextIdle.push(function() {
+					me.changeZoom.fire();
+				});
 			});
+
 			// deal with map movement
-			google.maps.event.addListener(map, 'dragend', function(){
+			google.maps.event.addListener(map, 'center_changed', function(){
 				me.moveendHandler(me);
 				me.endPan.fire();
 			});
+			
 			// deal with initial tile loading
 			var loadListener = google.maps.event.addListener(map, 'tilesloaded', function(){
 				me.load.fire();
 				google.maps.event.removeListener( loadListener );
-			});
+			});			
+			
 			this.maps[api] = map;
 			this.loaded[api] = true;
 		}
