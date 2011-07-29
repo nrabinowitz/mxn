@@ -222,18 +222,17 @@ mxn.register('openlayers', {
 		},
 
 		addPolyline: function(polyline, old) {
-			var me = this;
-			var map = me.maps[me.api];
-			var pl = polyline.toProprietary(me.api);
-			if (!me.layers.polylines) {
+			var map = this.maps[this.api];
+			var pl = polyline.toProprietary(this.api);
+			if (!this.layers.polylines) {
 				// FIXME: click events hitting this layer don't bubble down to markers
-				me.layers.polylines = new OpenLayers.Layer.Vector('polylines');
-				map.addLayer(me.layers.polylines);
+				this.layers.polylines = new OpenLayers.Layer.Vector('polylines');
+				map.addLayer(this.layers.polylines);
 			}
-			me.layers.polylines.addFeatures([pl]);
+			this.layers.polylines.addFeatures([pl]);
 			
 			// listen for click event (listener must be set on layer)
-			me.layers.polylines.events.register("click", pl, function(event) {
+			this.layers.polylines.events.register("click", pl, function(event) {
 				polyline.click.fire();
 			});
 			
