@@ -573,29 +573,29 @@ Marker: {
 Polyline: {
 
 	toProprietary: function() {
-		var me = this;
 		var points = [];
-		for(var i =0, length = me.points.length; i < length; i++) {
-			points.push(me.points[i].toProprietary('googlev3'));
+		for(var i =0, length = this.points.length; i < length; i++) {
+			points.push(this.points[i].toProprietary('googlev3'));
 		}
-
+		
 		var polyOptions = {
 			path: points,
-			strokeColor: me.color || '#000000',
-			strokeOpacity: me.opacity || 1,
-			strokeWeight: me.width || 3
+			strokeColor: this.color || '#000000',
+			strokeOpacity: this.opacity || 1.0, 
+			strokeWeight: this.width || 3
 		};
 		
 		var polyline;
-		if (me.closed) {
-			polyOptions.fillOpacity = me.fillOpacity || 0.3;
-			polyOptions.fillColor = me.fillColor || me.color;
+		if (this.closed) {
+			polyOptions.fillOpacity = this.fillOpacity || 0.3;
+			polyOptions.fillColor = this.fillColor || this.color;
 			polyline = new google.maps.Polygon(polyOptions);
 		}
 		else {
 			polyline = new google.maps.Polyline(polyOptions);
 		}
 		// listen for click event
+        var me = this;
 		google.maps.event.addListener(polyline, 'click', function(){
 			me.click.fire();
 		});
