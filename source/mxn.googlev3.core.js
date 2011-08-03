@@ -448,11 +448,13 @@ Marker: {
 		var gAnchorPoint = new google.maps.Point(ax,ay);
 
 		if (this.iconUrl) {
+			var size = new google.maps.Size(this.iconSize[0], this.iconSize[1]);
  			options.icon = new google.maps.MarkerImage(
 				this.iconUrl,
-				new google.maps.Size(this.iconSize[0], this.iconSize[1]),
+				size,
 				new google.maps.Point(0,0),
-				gAnchorPoint
+				gAnchorPoint,
+				size
 			);
 
 			// do we have a Shadow?
