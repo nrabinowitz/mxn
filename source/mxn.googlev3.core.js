@@ -460,13 +460,13 @@ Marker: {
 			// do we have a Shadow?
 			if (this.iconShadowUrl) {
 				if (this.iconShadowSize) {
-					var x = this.iconShadowSize[0];
-					var y = this.iconShadowSize[1];
+					var shadowSize = new google.maps.Size(this.iconShadowSize[0], this.iconShadowSize[1]);
 					options.shadow = new google.maps.MarkerImage(
 						this.iconShadowUrl,
-						new google.maps.Size(x,y),
+						shadowSize,
 						new google.maps.Point(0,0),
-						gAnchorPoint 
+						gAnchorPoint,
+						shadowSize
 					);
 				}
 				else {
