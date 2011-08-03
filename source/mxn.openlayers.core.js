@@ -18,68 +18,12 @@ mxn.register('openlayers', {
 			
 			// initialize layers map (this was previously in mxn.core.js)
 			this.layers = {};
-
-			this.layers.osmmapnik = new OpenLayers.Layer.TMS(
-				'OSM Mapnik',
-				[
-					"http://a.tile.openstreetmap.org/",
-					"http://b.tile.openstreetmap.org/",
-					"http://c.tile.openstreetmap.org/"
-				],
-				{
-					type:'png',
-					getURL: function (bounds) {
-						var res = this.map.getResolution();
-						var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-						var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-						var z = this.map.getZoom();
-						var limit = Math.pow(2, z);
-						if (y < 0 || y >= limit) {
-							return null;
-						} else {
-							x = ((x % limit) + limit) % limit;
-							var path = z + "/" + x + "/" + y + "." + this.type;
-							var url = this.url;
-							if (url instanceof Array) {
-								url = this.selectUrl(path, url);
-							}
-							return url + path;
-						}
-					},
-					displayOutsideMaxExtent: true
-				}
-			);
-
-			this.layers.osm = new OpenLayers.Layer.TMS(
-				'OSM',
-				[
-					"http://a.tah.openstreetmap.org/Tiles/tile.php/",
-					"http://b.tah.openstreetmap.org/Tiles/tile.php/",
-					"http://c.tah.openstreetmap.org/Tiles/tile.php/"
-				],
-				{
-					type:'png',
-					getURL: function (bounds) {
-						var res = this.map.getResolution();
-						var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-						var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-						var z = this.map.getZoom();
-						var limit = Math.pow(2, z);
-						if (y < 0 || y >= limit) {
-							return null;
-						} else {
-							x = ((x % limit) + limit) % limit;
-							var path = z + "/" + x + "/" + y + "." + this.type;
-							var url = this.url;
-							if (url instanceof Array) {
-								url = this.selectUrl(path, url);
-							}
-							return url + path;
-						}
-					},
-					displayOutsideMaxExtent: true
-				}
-			);
+			
+			// holder for all info bubbles
+			this.proprietary_bubbles = [];
+			
+			// default road map: OpenStreetMap 
+			this.layers.road = new OpenLayers.Layer.OSM();
 			
 			// deal with click
 			map.events.register('click', map, function(evt){
@@ -114,8 +58,7 @@ mxn.register('openlayers', {
 				}
 			}
 			
-			map.addLayer(this.layers.osmmapnik);
-			map.addLayer(this.layers.osm);
+			map.addLayer(this.layers.road);
 			this.maps[api] = map;
 			this.loaded[api] = true;
 		},
@@ -427,9 +370,8 @@ mxn.register('openlayers', {
 		},
 
 		openBubble: function(point, content) {
-			if (this.bubble) {
-				// one at a time
-				this.bubble.destroy();
+			if (!this.options.enableMultipleBubbles) {
+				this.closeBubble();
 			}
 			var map = this.maps[this.api],
 				popup = new OpenLayers.Popup.FramedCloud(
@@ -441,13 +383,24 @@ mxn.register('openlayers', {
 					true
 				);
 			popup.autoSize = true;
-			this.bubble = popup;
 			map.addPopup(popup);
+			this.proprietary_bubbles.push(popup);
+			return popup;
 		},
 
-		closeBubble: function() {
-			if (this.bubble) {
-				this.bubble.destroy();
+		closeBubble: function(popup) {
+			if (popup && popup.div) {
+				popup.destroy();
+			} else {
+				// XXX: Should calling closeBubble() on the map always close all bubbles?
+				var bubbles = this.proprietary_bubbles,
+					bubble;
+				while (bubbles.length) {
+					bubble = bubbles.pop();
+					if (bubble.div) {
+						bubble.destroy();
+					}
+				}
 			}
 		}
 	},
@@ -519,8 +472,14 @@ mxn.register('openlayers', {
 				document.getElementById(me.div).innerHTML = me.infoDiv;
 			}
 			else if (this.infoBubble) {
+				var mxn_map = this.mapstraction;
+				if (!mxn_map.options.enableMultipleBubbles) {
+					mxn_map.closeBubble();
+				} else {
+					this.closeBubble();
+				}
 				// create popup and save
-				var popup = this.proprietary_popup = new OpenLayers.Popup.FramedCloud(
+				var popup = this.proprietary_bubble = new OpenLayers.Popup.FramedCloud(
 					null,
 					this.location.toProprietary("openlayers"),
 					new OpenLayers.Size(300,200),
@@ -531,16 +490,16 @@ mxn.register('openlayers', {
 				popup.autoSize = true;
 				this.map.addPopup(popup);
 				popup.show();
-				this.popupVisible = true;
+				this.openInfoBubble.fire({'marker': this});
+				mxn_map.proprietary_bubbles.push(popup);
 			}
 		},
 
 		closeBubble: function() {
-			var popup = this.proprietary_popup;
-			if (popup && this.popupVisible) {
-				popup.hide();
-				this.map.removePopup(popup);
-				this.popupVisible = false;
+			if (this.proprietary_bubble && this.proprietary_bubble.div) {
+				this.proprietary_bubble.destroy();
+				this.closeInfoBubble.fire({'marker': this});
+				this.proprietary_bubble = null;
 			}
 		},
 

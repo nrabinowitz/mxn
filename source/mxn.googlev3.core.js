@@ -15,6 +15,9 @@ Mapstraction: {
 				navigationControlOptions: null,
 				scrollwheel: false
 			};
+			
+			// holder for all info windows
+			this.proprietary_bubbles = [];
 
 			// find controls
 			if (!this.addControlsArgs && loadoptions.addControlsArgs) {
@@ -390,22 +393,28 @@ Mapstraction: {
 	},
 
 	openBubble: function(point, content) {
-		if (this.bubble) {
-			// only one map bubble at a time - it'll make life easier
-			this.bubble.close();
+		if (!this.options.enableMultipleBubbles) {
+			this.closeBubble();
 		}
 		var map = this.maps[this.api],
 			iw = new google.maps.InfoWindow({
 				position: point.toProprietary(this.api),
 				content: content
 			});
-		this.bubble = iw;
 		iw.open(map);
+		this.proprietary_bubbles.push(iw);
+		return iw;
 	},
 
-	closeBubble: function() {
-		if (this.bubble) {
-			this.bubble.close();
+	closeBubble: function(iw) {
+		if (iw) {
+			iw.close();
+		} else {
+			// XXX: Should calling closeBubble() on the map always close all bubbles?
+			var bubbles = this.proprietary_bubbles;
+			while (bubbles.length) {
+				bubbles.pop().close();
+			}
 		}
 	}
 },
@@ -528,25 +537,30 @@ Marker: {
 	},
 
 	openBubble: function() {
-		if (!this.proprietary_infowindow) {
-			var me = this,
-				infowindow = new google.maps.InfoWindow({
-					content: this.infoBubble
-				});
+		var me = this,
+			mxn_map = this.mapstraction,
+			infowindow = this.proprietary_bubble;
+		if (!mxn_map.options.enableMultipleBubbles) {
+			mxn_map.closeBubble();
+		}
+		if (!infowindow) {
+			infowindow = this.proprietary_bubble = new google.maps.InfoWindow({
+				content: this.infoBubble
+			});
 			google.maps.event.addListener(infowindow, 'closeclick', function(closedWindow) {
 				me.closeBubble();
 			});
-			this.openInfoBubble.fire({'marker': me});
-			infowindow.open(this.map,this.proprietary_marker);
-			this.proprietary_infowindow = infowindow; // Save so we can close it later
 		}
+		mxn_map.proprietary_bubbles.push(infowindow);
+		infowindow.open(this.map,this.proprietary_marker);
+		this.openInfoBubble.fire({'marker': me});
 	},
 	
 	closeBubble: function() {
-		if (this.proprietary_infowindow) {
-			this.proprietary_infowindow.close();
+		if (this.proprietary_bubble) {
+			this.proprietary_bubble.close();
 			this.closeInfoBubble.fire({'marker': this});
-			this.proprietary_infowindow = null;
+			this.proprietary_bubble = null;
 		}
 	},
 

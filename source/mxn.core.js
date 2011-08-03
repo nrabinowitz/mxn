@@ -86,7 +86,8 @@ var Mapstraction = mxn.Mapstraction = function(element, api, debug) {
 	 */
 	this.options = {
 		enableScrollWheelZoom: false,
-		enableDragging: true
+		enableDragging: true,
+		enableMultipleBubbles: false
 	};
 	
 	this.addControlsArgs = {};
@@ -349,8 +350,6 @@ mxn.addProxyMethods(Mapstraction, [
 	 * Closes the map-based info bubble, if open
 	 * @name mxn.Mapstraction#closeBubble
 	 * @function
-	 * @param {point} LatLonPoint where the window should open
-	 * @param {content} Content string for the window
 	 */
 	'closeBubble'
 ]);
