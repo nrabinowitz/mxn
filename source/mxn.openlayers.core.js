@@ -412,7 +412,9 @@ mxn.register('openlayers', {
 		},
 
 		fromProprietary: function(olPoint) {
-			OpenLayers.Layer.SphericalMercator.projectInverse(this);
+			var latlon = OpenLayers.Layer.SphericalMercator.inverseMercator(olPoint.lon, olPoint.lat);
+			this.lon = latlon.lon;
+			this.lat = latlon.lat;
 		}
 
 	},
