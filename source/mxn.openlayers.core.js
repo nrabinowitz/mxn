@@ -473,7 +473,6 @@ mxn.register('openlayers', {
 				}
 				// create popup and save
 				var anchor = this.proprietary_marker.icon;
-				console.log(anchor);
 				var popup = this.proprietary_bubble = new OpenLayers.Popup.FramedCloud(
 					null,
 					this.location.toProprietary("openlayers"),
