@@ -472,12 +472,21 @@ mxn.register('openlayers', {
 					this.closeBubble();
 				}
 				// create popup and save
+				var anchor = this.proprietary_marker.icon;
+				console.log(anchor);
 				var popup = this.proprietary_bubble = new OpenLayers.Popup.FramedCloud(
 					null,
 					this.location.toProprietary("openlayers"),
 					new OpenLayers.Size(300,200),
 					this.infoBubble,
-					this.proprietary_marker.icon,
+					// correct for weird bubble placement
+					{
+						size: new OpenLayers.Size(10,10),
+						offset: {
+							x: anchor.offset.x + 15,
+							y: anchor.offset.y + 20
+						}
+					},
 					true
 				);
 				popup.autoSize = true;
