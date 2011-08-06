@@ -408,18 +408,11 @@ mxn.register('openlayers', {
 	LatLonPoint: {
 
 		toProprietary: function() {
-			var ollon = this.lon * 20037508.34 / 180;
-			var ollat = Math.log(Math.tan((90 + this.lat) * Math.PI / 360)) / (Math.PI / 180);
-			ollat = ollat * 20037508.34 / 180;
-			return new OpenLayers.LonLat(ollon, ollat);			
+			return OpenLayers.Layer.SphericalMercator.forwardMercator(this.lon, this.lat);			
 		},
 
 		fromProprietary: function(olPoint) {
-			var lon = (olPoint.lon / 20037508.34) * 180;
-			var lat = (olPoint.lat / 20037508.34) * 180;
-			lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-			this.lon = lon;
-			this.lat = lat;
+			OpenLayers.Layer.SphericalMercator.projectInverse(this);
 		}
 
 	},
@@ -431,8 +424,8 @@ mxn.register('openlayers', {
 				w = me.iconSize ? me.iconSize[0] : 21,
 				h =  me.iconSize ? me.iconSize[1] : 25,
 				size = new OpenLayers.Size(w, h),
-				anchorx = me.iconAnchor ? me.iconAnchor[0] : -(size.w/2),
-				anchory = me.iconAnchor ? me.iconAnchor[1] : -size.h,
+				anchorx = me.iconAnchor ? -me.iconAnchor[0] : -(size.w/2),
+				anchory = me.iconAnchor ? -me.iconAnchor[1] : -size.h,
 				anchor = new OpenLayers.Pixel(anchorx, anchory),
 				iconUrl = me.iconUrl || 'http://openlayers.org/dev/img/marker-gold.png',
 				hoverIconUrl = me.hoverIconUrl,
