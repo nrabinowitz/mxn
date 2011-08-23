@@ -152,7 +152,21 @@ var Mapstraction = mxn.Mapstraction = function(element, api, debug) {
 		 * @name mxn.Mapstraction#polylineRemoved
 		 * @event
 		 */
-		'polylineRemoved'
+		'polylineRemoved',
+		
+		/**
+		 * Map-based info window is opened
+		 * @name mxn.Mapstraction#openInfoBubble
+		 * @event
+		 */
+		'openInfoBubble',
+		
+		/**
+		 * Map-based info window is closed
+		 * @name mxn.Mapstraction#closeInfoBubble
+		 * @event
+		 */
+		'closeInfoBubble'
 	]);
 	
 	// finally initialize our proper API map
