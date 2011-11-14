@@ -16,18 +16,20 @@
   function initialize() {
 
       // create mxn object
-      var m = new mxn.Mapstraction('mapdiv','leaflet');
+      map = new mxn.Mapstraction('mapdiv', 'leaflet');
 
-      m.addControls({zoom:'small'});
+      map.addControls({zoom:'small'});
 
       var latlon = new mxn.LatLonPoint(41.84756115424155,-91.70015573501587)
 
       // put map on page
-      m.setCenterAndZoom(latlon, 16);
+      map.setCenterAndZoom(latlon, 12);
 
       // add a marker
-      var marker = new mxn.Marker(latlon);
-      m.addMarker(marker,true);
+      marker = new mxn.Marker(latlon);
+      //map.addMarker(marker);
+      map.openBubble(latlon, "Hello world");
+      //map.closeBubble();
   }
 //]]>
 </script> 

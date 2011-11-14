@@ -2,7 +2,7 @@ mxn.register('leaflet', {
 
 Mapstraction: {
     
-    init: function(element,api) {        
+    init: function(element, api) {
         var me = this;
         var map = new L.Map(element.id);
         // initialize layers map (this was previously in mxn.core.js)
@@ -15,7 +15,8 @@ Mapstraction: {
              subdomains: ['mt0','mt1','mt2','mt3']
         });
         map.addLayer(this.layers.road);
-        // Load it all up
+
+        // Finishing touches
         this.maps[api] = map;
         this.loaded[api] = true;
     },
@@ -68,12 +69,6 @@ Mapstraction: {
         var pin = marker.toProprietary(this.api);
         map.addLayer(pin)
         return pin;
-        //GEvent.addListener(gpin, 'infowindowopen', function() {
-        //    marker.openInfoBubble.fire();
-        //});
-        //GEvent.addListener(gpin, 'infowindowclose', function() {
-        //    marker.closeInfoBubble.fire();
-        //});        
     },
 
     removeMarker: function(marker) {
@@ -289,13 +284,17 @@ Mapstraction: {
     },
 
     openBubble: function(point, content) {
-//        var map = this.maps[this.api];
-//        map.openInfoWindowHtml(point.toProprietary(this.api), content);
+        var map = this.maps[this.api];
+        var point = point.toProprietary(this.api);
+        var marker = new L.Marker(point);
+        marker.bindPopup(content);
+        map.addLayer(marker);
+        marker.openPopup();
     },
 
     closeBubble: function() {
-//        var map = this.maps[this.api];
-//        map.closeInfoWindow();
+        var map = this.maps[this.api];
+        map.closePopup();
     }
 },
 
@@ -315,18 +314,20 @@ LatLonPoint: {
 Marker: {
     
     toProprietary: function() {
-        var marker = new L.Marker(this.location.toProprietary('leaflet'));
-        return marker;
+        return new L.Marker(this.location.toProprietary('leaflet'));
     },
 
     openBubble: function() {
-        //var gpin = this.proprietary_marker;
-        //gpin.openInfoWindowHtml(this.infoBubble);
+        var pin = this.proprietary_marker;
+        if (this.infoBubble) {
+            pin.bindPopup("<b>Hello world!</b><br />I am a popup.");
+            pin.openPopup();
+        }
     },
     
     closeBubble: function() {
-        //var gpin = this.proprietary_marker;
-        //gpin.closeInfoWindow();
+        var pin = this.proprietary_marker;
+        pin.closePopup();
     },
 
     hide: function() {
