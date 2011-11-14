@@ -259,16 +259,7 @@ Mapstraction: {
     },
 
     getPixelRatio: function() {
-//        var map = this.maps[this.api];
-//        var projection = G_NORMAL_MAP.getProjection();
-//        var centerPoint = map.getCenter();
-//        var zoom = map.getZoom();
-//        var centerPixel = projection.fromLatLngToPixel(centerPoint, zoom);
-//        // distance is the distance in metres for 5 pixels (3-4-5 triangle)
-//        var distancePoint = projection.fromPixelToLatLng(new GPoint(centerPixel.x + 3, centerPixel.y + 4), zoom);
-//        //*1000(km to m), /5 (pythag), *2 (radius to diameter)
-//        return 10000/distancePoint.distanceFrom(centerPoint);
-    
+        throw 'Not implemented';
     },
     
     mousePosition: function(element) {
