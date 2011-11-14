@@ -77,7 +77,7 @@ Mapstraction: {
     },
     
     declutterMarkers: function(opts) {
-        throw 'Not supported';
+        throw 'Not implemented';
     },
 
     addPolyline: function(polyline, old) {
@@ -272,15 +272,7 @@ Mapstraction: {
     },
     
     mousePosition: function(element) {
-//        var locDisp = document.getElementById(element);
-//        if (locDisp !== null) {
-//            var map = this.maps[this.api];
-//            GEvent.addListener(map, 'mousemove', function (point) {
-//                var loc = point.lat().toFixed(4) + ' / ' + point.lng().toFixed(4);
-//                locDisp.innerHTML = loc;
-//            });
-//            locDisp.innerHTML = '0.0000 / 0.0000';
-//        }
+        throw 'Not implemented';
     },
 
     openBubble: function(point, content) {
