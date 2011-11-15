@@ -226,11 +226,13 @@ Marker: {
     },
 
     hide: function() {
-        this.proprietary_marker.hide();
+        var map = this.mapstraction.maps[this.api];
+        map.removeLayer(this.proprietary_marker);
     },
 
     show: function() {
-        //this.proprietary_marker.show();
+        var map = this.mapstraction.maps[this.api];
+        map.addLayer(this.proprietary_marker);
     },
     
     isHidden: function() {
