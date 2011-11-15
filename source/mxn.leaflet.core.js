@@ -236,13 +236,16 @@ Marker: {
     },
     
     isHidden: function() {
-        //return this.proprietary_marker.isHidden();
+        var map = this.mapstraction.maps[this.api];
+        if (map.hasLayer(this.proprietary_marker)) {
+            return false;
+        } else {
+            return true;
+        };
     },
 
     update: function() {
-        point = new mxn.LatLonPoint();
-        point.fromProprietary('leaflet', this.proprietary_marker.getPoint());
-        this.location = point;
+        throw 'Not implemented';
     }
     
 },

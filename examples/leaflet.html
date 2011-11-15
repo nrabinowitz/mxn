@@ -35,8 +35,9 @@
       map.addMarker(marker);
       marker.addData({'infoBubble': 'This is a popup'})
       marker.openBubble();
+      console.log(marker.isHidden());
       marker.hide();
-      marker.show();
+      console.log(marker.isHidden());
       //map.removeMarker(marker);
       //map.openBubble(latlon, "Hello world");
       //map.closeBubble();
