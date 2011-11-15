@@ -33,8 +33,9 @@
       // add a marker
       marker = new mxn.Marker(latlon);
       map.addMarker(marker);
-      var bounds = new mxn.BoundingBox(latlon.lat, latlon.lng, latlon2.lat, latlon2.lng)
-      map.setBounds(bounds);
+      marker.addData({'infoBubble': 'This is a popup'})
+      marker.openBubble();
+      marker.closeBubble();
       //map.removeMarker(marker);
       //map.openBubble(latlon, "Hello world");
       //map.closeBubble();

@@ -215,7 +215,7 @@ Marker: {
     openBubble: function() {
         var pin = this.proprietary_marker;
         if (this.infoBubble) {
-            pin.bindPopup("<b>Hello world!</b><br />I am a popup.");
+            pin.bindPopup(this.infoBubble);
             pin.openPopup();
         }
     },
@@ -226,7 +226,7 @@ Marker: {
     },
 
     hide: function() {
-        //this.proprietary_marker.hide();
+        this.proprietary_marker.hide();
     },
 
     show: function() {
