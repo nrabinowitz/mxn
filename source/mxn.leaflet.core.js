@@ -83,8 +83,7 @@ Mapstraction: {
     getCenter: function() {
         var map = this.maps[this.api];
         var pt = map.getCenter();
-        var point = new mxn.LatLonPoint(pt.lat(),pt.lng());
-        return point;
+        return new mxn.LatLonPoint(pt.lat, pt.lng);
     },
 
     setCenter: function(point, options) {
