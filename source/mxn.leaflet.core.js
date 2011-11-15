@@ -154,7 +154,13 @@ Mapstraction: {
         throw 'Not implemented';
     },
 
-    addTileLayer: function(tile_url, options, layerName) {
+    addTileLayer: function(tile_url, options) {
+        if (options && options.name) {
+            var layerName = options.name;
+            delete options.name;
+        } else {
+            var layerName = 'Tiles'
+        }
         this.layers[layerName] = new L.TileLayer(tile_url, options || {});
         var map = this.maps[this.api];
         map.addLayer(this.layers[layerName]);
