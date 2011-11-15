@@ -65,19 +65,15 @@ Mapstraction: {
     },
 
     addPolyline: function(polyline, old) {
-//        var map = this.maps[this.api];
-//        gpolyline = polyline.toProprietary(this.api);
-//        map.addOverlay(gpolyline);
-//        
-//        GEvent.addListener(gpolyline, 'click', function() {
-//            polyline.click.fire();
-//        });
-//        return gpolyline;
+        var map = this.maps[this.api];
+        polyline = polyline.toProprietary(this.api);
+        map.addLayer(polyline);
+        return polyline;
     },
 
     removePolyline: function(polyline) {
-//        var map = this.maps[this.api];
-//        map.removeOverlay(polyline.proprietary_polyline);
+        var map = this.maps[this.api];
+        map.removeLayer(polyline.proprietary_polyline);
     },
 
     getCenter: function() {
@@ -247,15 +243,15 @@ Marker: {
 Polyline: {
 
     toProprietary: function() {
-//        var gpoints = [];
-//        for (var i = 0,  length = this.points.length ; i< length; i++){
-//            gpoints.push(this.points[i].toProprietary('leaflet'));
-//        }
-//        if (this.closed) {
-//            return new GPolygon(gpoints, this.color, this.width, this.opacity, this.fillColor || "#5462E3", this.fillOpacity || 0.3);
-//        } else {
-//            return new GPolyline(gpoints, this.color, this.width, this.opacity);
-//        }
+        var points = [];
+        for (var i = 0,  length = this.points.length ; i< length; i++){
+            points.push(this.points[i].toProprietary('leaflet'));
+        }
+        if (this.closed) {
+            return new L.Polygon(points);
+        } else {
+            return new L.Polyline(points);
+        }
     },
     
     show: function() {

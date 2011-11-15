@@ -35,12 +35,15 @@
       map.addMarker(marker);
       marker.addData({'infoBubble': 'This is a popup'})
       marker.openBubble();
-      console.log(marker.isHidden());
-      marker.hide();
-      console.log(marker.isHidden());
-      //map.removeMarker(marker);
-      //map.openBubble(latlon, "Hello world");
-      //map.closeBubble();
+
+      // add a polyline
+      var pl = new mxn.Polyline([
+          latlon,
+          latlon2,
+      ]);
+      pl.color = '#00DD55';
+      map.addPolyline(pl);
+      map.removePolyline(pl);
   }
 //]]>
 </script> 
