@@ -1,4 +1,4 @@
-mxn.register('leaflet', {    
+mxn.register('leaflet', {
 
 Mapstraction: {
     
@@ -8,7 +8,7 @@ Mapstraction: {
             zoomControl: false
         });
         this.layers = {};
-        this.proprietary_bubbles = [];
+        this.features = [];
         this.maps[api] = map;
         this.loaded[api] = true;
     },
@@ -17,7 +17,7 @@ Mapstraction: {
         return false;
     },
 
-    resizeTo: function(width, height){    
+    resizeTo: function(width, height){
         this.currentElement.style.width = width;
         this.currentElement.style.height = height;
     },
@@ -26,7 +26,7 @@ Mapstraction: {
         var map = this.maps[this.api];
         var zoom = new L.Control.Zoom();
         map.addControl(zoom);
-        layersControl = new L.Control.Layers(this.layers, this.proprietary_bubbles);
+        layersControl = new L.Control.Layers(this.layers, this.features);
         map.addControl(layersControl);
     },
 
@@ -52,6 +52,7 @@ Mapstraction: {
         var map = this.maps[this.api];
         var pin = marker.toProprietary(this.api);
         map.addLayer(pin)
+        this.features.push(pin);
         return pin;
     },
 
@@ -68,6 +69,7 @@ Mapstraction: {
         var map = this.maps[this.api];
         polyline = polyline.toProprietary(this.api);
         map.addLayer(polyline);
+        this.features.push(polyline);
         return polyline;
     },
 
