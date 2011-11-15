@@ -255,21 +255,19 @@ Polyline: {
     },
     
     show: function() {
-//        var pl = this.proprietary_polyline;
-//        if (pl.supportsHide()) {
-//            pl.show();
-//        }
+        this.map.addLayer(this.proprietary_polyline);
     },
 
     hide: function() {
-//        var pl = this.proprietary_polyline;
-//        if (pl.supportsHide()) {
-//            pl.hide();
-//        }
+        this.map.removeLayer(this.proprietary_polyline);
     },
     
     isHidden: function() {
-//        return this.proprietary_polyline.isHidden();
+        if (this.map.hasLayer(this.proprietary_polyline)) {
+            return false;
+        } else {
+            return true;
+        };
     }
 }
 
