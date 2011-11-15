@@ -40,10 +40,7 @@ Mapstraction: {
     },
 
     addMapTypeControls: function() {
-//        var map = this.maps[this.api];
-//        this.controls.unshift(new GMapTypeControl());
-//        map.addControl(this.controls[0]);
-//        this.addControlsArgs.map_type = true;
+        throw 'Not implemented';
     },
 
     setCenterAndZoom: function(point, zoom) { 
