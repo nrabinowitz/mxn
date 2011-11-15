@@ -19,9 +19,8 @@ Mapstraction: {
     },
 
     resizeTo: function(width, height){    
-//        this.currentElement.style.width = width;
-//        this.currentElement.style.height = height;
-//        this.maps[this.api].checkResize(); 
+        this.currentElement.style.width = width;
+        this.currentElement.style.height = height;
     },
 
     addControls: function( args ) {

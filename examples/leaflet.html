@@ -30,8 +30,10 @@
 
       // add a marker
       marker = new mxn.Marker(latlon);
-      //map.addMarker(marker);
-      map.openBubble(latlon, "Hello world");
+      map.addMarker(marker);
+      map.resizeTo(500, 1000);
+      //map.removeMarker(marker);
+      //map.openBubble(latlon, "Hello world");
       //map.closeBubble();
   }
 //]]>
