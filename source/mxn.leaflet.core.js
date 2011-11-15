@@ -128,18 +128,18 @@ Mapstraction: {
     getBounds: function () {
         var map = this.maps[this.api];
         var ne, sw, nw, se;
-        var gbox = map.getBounds();
-        sw = gbox.getSouthWest();
-        ne = gbox.getNorthEast();
-        return new mxn.BoundingBox(sw.lat(), sw.lng(), ne.lat(), ne.lng());
+        var box = map.getBounds();
+        sw = box.getSouthWest();
+        ne = box.getNorthEast();
+        return new mxn.BoundingBox(sw.lat, sw.lng, ne.lat, ne.lng);
     },
 
     setBounds: function(bounds){
-//        var map = this.maps[this.api];
-//        var sw = bounds.getSouthWest();
-//        var ne = bounds.getNorthEast();
-//        var gbounds = new GLatLngBounds(new GLatLng(sw.lat,sw.lon),new GLatLng(ne.lat,ne.lon));
-//        map.setCenter(gbounds.getCenter(), map.getBoundsZoomLevel(gbounds)); 
+        var map = this.maps[this.api];
+        var sw = bounds.getSouthWest();
+        var ne = bounds.getNorthEast();
+        var gbounds = new GLatLngBounds(new GLatLng(sw.lat,sw.lon),new GLatLng(ne.lat,ne.lon));
+        map.setCenter(gbounds.getCenter(), map.getBoundsZoomLevel(gbounds)); 
     },
 
     addImageOverlay: function(id, src, opacity, west, south, east, north) {
