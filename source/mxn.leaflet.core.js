@@ -7,11 +7,8 @@ Mapstraction: {
         var map = new L.Map(element.id, {
             zoomControl: false
         });
-        // initialize layers map
         this.layers = {};
-        // holder for all info bubbles
         this.proprietary_bubbles = [];
-        // Finishing touches
         this.maps[api] = map;
         this.loaded[api] = true;
     },
@@ -29,6 +26,8 @@ Mapstraction: {
         var map = this.maps[this.api];
         var zoom = new L.Control.Zoom();
         map.addControl(zoom);
+        layersControl = new L.Control.Layers(this.layers, this.proprietary_bubbles);
+        map.addControl(layersControl);
     },
 
     addSmallControls: function() {
