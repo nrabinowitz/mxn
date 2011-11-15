@@ -118,40 +118,11 @@ Mapstraction: {
     },
 
     setMapType: function(type) {
-//        var map = this.maps[this.api];
-//        switch(type) {
-//            case mxn.Mapstraction.ROAD:
-//                map.setMapType(G_NORMAL_MAP);
-//                break;
-//            case mxn.Mapstraction.SATELLITE:
-//                map.setMapType(G_SATELLITE_MAP);
-//                break;
-//            case mxn.Mapstraction.HYBRID:
-//                map.setMapType(G_HYBRID_MAP);
-//                break;
-//            case mxn.Mapstraction.PHYSICAL:
-//                map.setMapType(G_PHYSICAL_MAP);
-//                break;
-//            default:
-//                map.setMapType(type || G_NORMAL_MAP);
-//        }
+        throw 'Not implemented';
     },
 
     getMapType: function() {
-//        var map = this.maps[this.api];
-//        var type = map.getCurrentMapType();
-//        switch(type) {
-//            case G_NORMAL_MAP:
-//                return mxn.Mapstraction.ROAD;
-//            case G_SATELLITE_MAP:
-//                return mxn.Mapstraction.SATELLITE;
-//            case G_HYBRID_MAP:
-//                return mxn.Mapstraction.HYBRID;
-//            case G_PHYSICAL_MAP:
-//                return mxn.Mapstraction.PHYSICAL;
-//            default:
-//                return null;
-//        }
+        throw 'Not implemented';
     },
 
     getBounds: function () {
