@@ -36,11 +36,7 @@ Mapstraction: {
     },
 
     addLargeControls: function() {
-//        var map = this.maps[this.api];                
-//        this.controls.unshift(new GLargeMapControl());
-//        map.addControl(this.controls[0]);
-//        this.addControlsArgs.zoom = 'large';
-//        this.addControlsArgs.pan = true;
+        throw 'Not implemented';
     },
 
     addMapTypeControls: function() {
