@@ -108,13 +108,7 @@ Mapstraction: {
     },
 
     getZoomLevelForBoundingBox: function( bbox ) {
-//        var map = this.maps[this.api];
-//        // NE and SW points from the bounding box.
-//        var ne = bbox.getNorthEast();
-//        var sw = bbox.getSouthWest();
-//        var gbox = new GLatLngBounds( sw.toProprietary(this.api), ne.toProprietary(this.api) );
-//        var zoom = map.getBoundsZoomLevel( gbox );
-//        return zoom;
+        throw 'Not implemented';
     },
 
     setMapType: function(type) {
