@@ -5,17 +5,10 @@ Mapstraction: {
     init: function(element, api) {
         var me = this;
         var map = new L.Map(element.id);
-        // initialize layers map (this was previously in mxn.core.js)
+        // initialize layers map
         this.layers = {};
         // holder for all info bubbles
         this.proprietary_bubbles = [];
-        // default road map: Google 
-        this.layers.road = new L.TileLayer("http://{s}.google.com/vt/?hl=en&x={x}&y={y}&z={z}&s={s}", {
-             attribution: "Map data: Copyright Google, 2011",
-             subdomains: ['mt0','mt1','mt2','mt3']
-        });
-        map.addLayer(this.layers.road);
-
         // Finishing touches
         this.maps[api] = map;
         this.loaded[api] = true;
@@ -189,73 +182,25 @@ Mapstraction: {
     },
 
     addImageOverlay: function(id, src, opacity, west, south, east, north) {
-//        var map = this.maps[this.api],
-//            imageBounds = new GLatLngBounds(
-//                new GLatLng(south,west),
-//                new GLatLng(north,east)
-//            ),
-//            overlay = new GGroundOverlay(src, imageBounds);
-//        map.addOverlay(overlay);
+        throw 'Not implemented';
     },
 
     setImagePosition: function(id, oContext) {
-        // do nothing
+        throw 'Not implemented';
     },
     
     addOverlay: function(url, autoCenterAndZoom) {
-//        var map = this.maps[this.api];
-//        var geoXML = new GGeoXml(url);
-//        if(autoCenterAndZoom) {
-//            GEvent.addListener( geoXML, 'load', function() { geoXML.gotoDefaultViewport(map); } );
-//        }
-//        map.addOverlay(geoXML);
+        throw 'Not implemented';
     },
 
-    addTileLayer: function(tile_url, opacity, copyright_text, min_zoom, max_zoom, map_type) {
-//        var copyright = new GCopyright(1, new GLatLngBounds(new GLatLng(-90,-180), new GLatLng(90,180)), 0, "copyleft");
-//        var copyrightCollection = new GCopyrightCollection(copyright_text);
-//        copyrightCollection.addCopyright(copyright);
-//        var tilelayers = [];
-//        tilelayers[0] = new GTileLayer(copyrightCollection, min_zoom, max_zoom);
-//        tilelayers[0].isPng = function() {
-//            return true;
-//        };
-//        tilelayers[0].getOpacity = function() {
-//            return opacity;
-//        };
-//        tilelayers[0].getTileUrl = function (a, b) {
-//            url = tile_url;
-//            url = url.replace(/\{Z\}/g,b);
-//            url = url.replace(/\{X\}/g,a.x);
-//            url = url.replace(/\{Y\}/g,a.y);
-//            return url;
-//        };
-//        if(map_type) {
-//            var tileLayerOverlay = new GMapType(tilelayers, new GMercatorProjection(19), copyright_text, {
-//                errorMessage:"More "+copyright_text+" tiles coming soon"
-//            });        
-//            this.maps[this.api].addMapType(tileLayerOverlay);
-//        } else {
-//            tileLayerOverlay = new GTileLayerOverlay(tilelayers[0]);
-//            this.maps[this.api].addOverlay(tileLayerOverlay);
-//        }        
-//        this.tileLayers.push( [tile_url, tileLayerOverlay, true] );
-//        return tileLayerOverlay;
+    addTileLayer: function(tile_url, options) {
+        this.layers.tiles = new L.TileLayer(tile_url, options || {});
+        var map = this.maps[this.api];
+        map.addLayer(this.layers.tiles);
     },
 
     toggleTileLayer: function(tile_url) {
-//        for (var f=0; f<this.tileLayers.length; f++) {
-//            if(this.tileLayers[f][0] == tile_url) {
-//                if(this.tileLayers[f][2]) {
-//                    this.maps[this.api].removeOverlay(this.tileLayers[f][1]);
-//                    this.tileLayers[f][2] = false;
-//                }
-//                else {
-//                    this.maps[this.api].addOverlay(this.tileLayers[f][1]);
-//                    this.tileLayers[f][2] = true;
-//                }
-//            }
-//        }
+        throw 'Not implemented';
     },
 
     getPixelRatio: function() {
