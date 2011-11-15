@@ -15,7 +15,7 @@ Mapstraction: {
     },
     
     applyOptions: function(){
-        
+        throw 'Not implemented';
     },
 
     resizeTo: function(width, height){    
