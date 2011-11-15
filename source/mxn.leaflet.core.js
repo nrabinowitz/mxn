@@ -110,7 +110,7 @@ Mapstraction: {
     },
 
     setMapType: function(type) {
-        throw 'Not implemented';
+        return false;
     },
 
     getMapType: function() {
