@@ -136,10 +136,10 @@ Mapstraction: {
 
     setBounds: function(bounds){
         var map = this.maps[this.api];
-        var sw = bounds.getSouthWest();
-        var ne = bounds.getNorthEast();
-        var gbounds = new GLatLngBounds(new GLatLng(sw.lat,sw.lon),new GLatLng(ne.lat,ne.lon));
-        map.setCenter(gbounds.getCenter(), map.getBoundsZoomLevel(gbounds)); 
+        var sw = bounds.getSouthWest().toProprietary(this.api);
+        var ne = bounds.getNorthEast().toProprietary(this.api);
+        var bounds = new L.LatLngBounds(sw, ne)
+        map.fitBounds(bounds); 
     },
 
     addImageOverlay: function(id, src, opacity, west, south, east, north) {
