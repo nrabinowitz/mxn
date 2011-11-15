@@ -4,7 +4,9 @@ Mapstraction: {
     
     init: function(element, api) {
         var me = this;
-        var map = new L.Map(element.id);
+        var map = new L.Map(element.id, {
+            zoomControl: false
+        });
         // initialize layers map
         this.layers = {};
         // holder for all info bubbles
@@ -23,16 +25,14 @@ Mapstraction: {
         this.currentElement.style.height = height;
     },
 
-    addControls: function( args ) {
-        
+    addControls: function() {
+        var map = this.maps[this.api];
+        var zoom = new L.Control.Zoom();
+        map.addControl(zoom);
     },
 
     addSmallControls: function() {
-//        var map = this.maps[this.api];
-//        this.controls.unshift(new GSmallMapControl());
-//        map.addControl(this.controls[0]);
-//        this.addControlsArgs.zoom = 'small';
-//        this.addControlsArgs.pan = true;
+        this.addControls();
     },
 
     addLargeControls: function() {
