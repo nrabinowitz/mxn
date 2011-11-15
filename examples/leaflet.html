@@ -23,7 +23,8 @@
       }, "Street");
       map.addSmallControls();
 
-      var latlon = new mxn.LatLonPoint(41.84756115424155,-91.70015573501587)
+      latlon = new mxn.LatLonPoint(41.84756115424155,-91.70015573501587)
+      latlon2 = new mxn.LatLonPoint(41.88756115424155,-91.70015573501587)
 
       // put map on page
       map.setCenterAndZoom(latlon, 12);
@@ -31,6 +32,7 @@
       // add a marker
       marker = new mxn.Marker(latlon);
       map.addMarker(marker);
+      map.setCenter(latlon2, {pan:true});
       //map.removeMarker(marker);
       //map.openBubble(latlon, "Hello world");
       //map.closeBubble();

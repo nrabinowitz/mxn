@@ -87,14 +87,14 @@ Mapstraction: {
     },
 
     setCenter: function(point, options) {
-//        var map = this.maps[this.api];
-//        var pt = point.toProprietary(this.api);
-//        if(options && options.pan) { 
-//            map.panTo(pt); 
-//        }
-//        else { 
-//            map.setCenter(pt);
-//        }
+        var map = this.maps[this.api];
+        var pt = point.toProprietary(this.api);
+        if(options && options.pan) { 
+            map.panTo(pt); 
+        }
+        else { 
+            map.setView(pt, map.getZoom(), true);
+        }
     },
 
     setZoom: function(zoom) {
