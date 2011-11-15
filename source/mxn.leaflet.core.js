@@ -201,6 +201,8 @@ LatLonPoint: {
 Marker: {
     
     toProprietary: function() {
+        var me = this;
+        // ICON OPTIONS NEED TO GO HERE
         return new L.Marker(this.location.toProprietary('leaflet'));
     },
 
