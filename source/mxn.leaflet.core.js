@@ -202,8 +202,38 @@ Marker: {
     
     toProprietary: function() {
         var me = this;
-        // ICON OPTIONS NEED TO GO HERE
-        return new L.Marker(this.location.toProprietary('leaflet'));
+        var thisIcon = L.Icon;
+        if (me.iconUrl) {
+            thisIcon = thisIcon.extend({
+                iconUrl: me.iconUrl
+            });
+        }
+        if (me.iconSize) {
+            thisIcon = thisIcon.extend({
+                iconSize: new L.Point(me.iconSize[0], me.iconSize[1])
+            });
+        }
+        if (me.iconAnchor) {
+            thisIcon = thisIcon.extend({
+                iconAnchor: new L.Point(me.iconAnchor[0], me.iconAnchor[1])
+            });
+        }
+        if (me.iconShadowUrl) {
+            thisIcon = thisIcon.extend({
+                shadowUrl: me.iconShadowUrl
+            });
+        }
+        if (me.iconShadowSize) {
+            thisIcon = thisIcon.extend({
+                shadowSize: new L.Point(me.iconShadowSize[0], me.iconShadowSize[1])
+            });
+        }
+        var iconObj = new thisIcon();
+        var marker = new L.Marker(
+            this.location.toProprietary('leaflet'),
+            { icon: iconObj }
+        );
+        return marker;
     },
 
     openBubble: function() {
