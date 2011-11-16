@@ -233,6 +233,11 @@ Marker: {
             this.location.toProprietary('leaflet'),
             { icon: iconObj }
         );
+        (function(me, marker) {
+            marker.on("click", function (e) {
+                me.click.fire();
+            });
+        })(me, marker);
         return marker;
     },
 
