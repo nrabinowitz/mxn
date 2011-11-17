@@ -55,7 +55,7 @@ Mapstraction: {
     addMarker: function(marker, old) {
         var map = this.maps[this.api];
         var pin = marker.toProprietary(this.api);
-        map.addLayer(pin)
+        map.addLayer(pin);
         this.features.push(pin);
         return pin;
     },
@@ -134,8 +134,8 @@ Mapstraction: {
         var map = this.maps[this.api];
         var sw = bounds.getSouthWest().toProprietary(this.api);
         var ne = bounds.getNorthEast().toProprietary(this.api);
-        var bounds = new L.LatLngBounds(sw, ne)
-        map.fitBounds(bounds); 
+        var newBounds = new L.LatLngBounds(sw, ne);
+        map.fitBounds(newBounds); 
     },
 
     addImageOverlay: function(id, src, opacity, west, south, east, north) {
@@ -151,11 +151,12 @@ Mapstraction: {
     },
 
     addTileLayer: function(tile_url, options) {
+        var layerName;
         if (options && options.name) {
-            var layerName = options.name;
+            layerName = options.name;
             delete options.name;
         } else {
-            var layerName = 'Tiles'
+            layerName = 'Tiles';
         }
         this.layers[layerName] = new L.TileLayer(tile_url, options || {});
         var map = this.maps[this.api];
@@ -176,8 +177,8 @@ Mapstraction: {
 
     openBubble: function(point, content) {
         var map = this.maps[this.api];
-        var point = point.toProprietary(this.api);
-        var marker = new L.Marker(point);
+        var newPoint = point.toProprietary(this.api);
+        var marker = new L.Marker(newPoint);
         marker.bindPopup(content);
         map.addLayer(marker);
         marker.openPopup();
@@ -274,7 +275,7 @@ Marker: {
             return false;
         } else {
             return true;
-        };
+        }
     },
 
     update: function() {
@@ -310,7 +311,7 @@ Polyline: {
             return false;
         } else {
             return true;
-        };
+        }
     }
 }
 
