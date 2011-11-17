@@ -22,16 +22,20 @@ Mapstraction: {
         this.currentElement.style.height = height;
     },
 
-    addControls: function() {
+    addControls: function(args) {
         var map = this.maps[this.api];
-        var zoom = new L.Control.Zoom();
-        map.addControl(zoom);
-        layersControl = new L.Control.Layers(this.layers, this.features);
-        map.addControl(layersControl);
+        if (args.zoom) {
+            var zoom = new L.Control.Zoom();
+            map.addControl(zoom);
+        }
+        if (args.map_type) {
+            var layersControl = new L.Control.Layers(this.layers, this.features);
+            map.addControl(layersControl);
+        }
     },
 
     addSmallControls: function() {
-        this.addControls();
+        this.addControls({zoom: true, map_type: true});
     },
 
     addLargeControls: function() {
