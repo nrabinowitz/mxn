@@ -9,7 +9,7 @@ Mapstraction: {
     }
     this.maps[api] = new Microsoft.Maps.Map(element,{credentials:microsoft_key});
     //Add Click Event
-    element.addEventListener('contextmenu',function(evt) {evt.preventDefault()});
+    element.addEventListener('contextmenu',function(evt) { evt.preventDefault(); });
     Microsoft.Maps.Events.addHandler(this.maps[api],'rightclick', function(event) {
       var map = me.maps[me.api];
       var _x = event.getX();
@@ -186,7 +186,7 @@ Mapstraction: {
     var pt = point.toProprietary(this.api);
    
     // Get the existing options.
-    var options = map.getOptions();
+    options = map.getOptions();
     options.center = pt;
     options.bounds = null;
     map.setView(options);
@@ -396,7 +396,7 @@ Marker: {
     
     this.events.openInfoBubble.fire({'marker': this});
     this.map.entities.push(infowindow);
-    infowindow.setOptions({visible:true})
+    infowindow.setOptions({visible:true});
     this.proprietary_infowindow = infowindow; // Save so we can close it later
   },
   closeBubble: function() {

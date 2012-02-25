@@ -156,21 +156,22 @@ Mapstraction: {
 
 	setMapType: function(type) {
 		var map = this.maps[this.api];
-		switch(type) {
+		/*switch(type) {
 			// MapQuest has a function to set map type, but open MapQuest only supports road
-			/*
+			
 			case mxn.Mapstraction.SATELLITE:
 				map.setMapType('sat');
 			break;
 			case mxn.Mapstraction.HYBRID:
 				map.setMapType('hyb');
 			break;
-			*/
+			
 			case mxn.Mapstraction.ROAD:
 			default:
 				map.setMapType('map');
 			break;
-		}	 
+		}*/
+		map.setMapType('map');
 	},
 
 	getMapType: function() {
@@ -180,14 +181,12 @@ Mapstraction: {
 		switch(type) {
 			case 'sat':
 				return mxn.Mapstraction.SATELLITE;
-			break;
 			case 'hyb':
 				return mxn.Mapstraction.HYBRID;
-			break;
 			case 'map':
+				return mxn.Mapstraction.ROAD;
 			default:
-				return mxn.Mapstraction.ROAD
-			break;
+				return mxn.Mapstraction.ROAD;
 		}	 
 	},
 
