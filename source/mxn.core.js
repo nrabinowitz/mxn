@@ -1391,19 +1391,18 @@ BoundingBox.prototype.toSpan = function() {
 BoundingBox.prototype.extend = function(point) {
 	var box = this;
 	// checking undefined here allows extending an empty box
-	if (box.sw.lat === undefined || box.sw.lat > point.lat) {
+	if (isNaN(box.sw.lat) || box.sw.lat > point.lat) {
 		box.sw.lat = point.lat;
 	}
-	if (box.sw.lon === undefined || box.sw.lon > point.lon) {
+	if (isNaN(box.sw.lon) || box.sw.lon > point.lon) {
 		box.sw.lon = point.lon;
 	}
-	if (box.ne.lat === undefined || box.ne.lat < point.lat) {
+	if (isNaN(box.ne.lat) || box.ne.lat < point.lat) {
 		box.ne.lat = point.lat;
 	}
-	if (box.ne.lon === undefined || box.ne.lon < point.lon) {
+	if (isNaN(box.ne.lon) || box.ne.lon < point.lon) {
 		box.ne.lon = point.lon;
 	}
-	return;
 };
 
 /** 
