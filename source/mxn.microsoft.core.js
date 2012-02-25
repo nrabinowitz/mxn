@@ -1,4 +1,4 @@
-mxn.register('microsoft', {	
+mxn.register('microsoft', {  
 
 Mapstraction: {
 	
@@ -56,93 +56,93 @@ Mapstraction: {
 		}		
 	},
 
-	resizeTo: function(width, height){	
-		this.maps[this.api].Resize(width, height);
-	},
+  resizeTo: function(width, height){  
+    this.maps[this.api].Resize(width, height);
+  },
 
-	addControls: function( args ) {
-		var map = this.maps[this.api];
-		
-		if (args.pan) {
-			map.SetDashboardSize(VEDashboardSize.Normal);
-		}
-		else {
-			map.SetDashboardSize(VEDashboardSize.Tiny);
-		}
+  addControls: function( args ) {
+    var map = this.maps[this.api];
+    
+    if (args.pan) {
+      map.SetDashboardSize(VEDashboardSize.Normal);
+    }
+    else {
+      map.SetDashboardSize(VEDashboardSize.Tiny);
+    }
 
-	  	if (args.zoom == 'large') {
-			map.SetDashboardSize(VEDashboardSize.Small);
-		}
-		else if ( args.zoom == 'small' ) {
-			map.SetDashboardSize(VEDashboardSize.Tiny);
-		}
-		else {
-			map.HideDashboard();
-			map.HideScalebar();
-		}
-	},
+      if (args.zoom == 'large') {
+      map.SetDashboardSize(VEDashboardSize.Small);
+    }
+    else if ( args.zoom == 'small' ) {
+      map.SetDashboardSize(VEDashboardSize.Tiny);
+    }
+    else {
+      map.HideDashboard();
+      map.HideScalebar();
+    }
+  },
 
-	addSmallControls: function() {
-		var map = this.maps[this.api];
-		map.SetDashboardSize(VEDashboardSize.Tiny);
-	},
+  addSmallControls: function() {
+    var map = this.maps[this.api];
+    map.SetDashboardSize(VEDashboardSize.Tiny);
+  },
 
-	addLargeControls: function() {
-		var map = this.maps[this.api];
-		map.SetDashboardSize(VEDashboardSize.Normal);
-		this.addControlsArgs.pan = true;
-		this.addControlsArgs.zoom = 'large';
-	},
+  addLargeControls: function() {
+    var map = this.maps[this.api];
+    map.SetDashboardSize(VEDashboardSize.Normal);
+    this.addControlsArgs.pan = true;
+    this.addControlsArgs.zoom = 'large';
+  },
 
-	addMapTypeControls: function() {
-		var map = this.maps[this.api];
-		map.addTypeControl();
-	
-	},
+  addMapTypeControls: function() {
+    var map = this.maps[this.api];
+    map.addTypeControl();
+  
+  },
 
-	dragging: function(on) {
-		var map = this.maps[this.api];
-		if (on) {
-			map.enableDragMap();
-		}
-		else {
-			map.disableDragMap();
-		}
-	},
+  dragging: function(on) {
+    var map = this.maps[this.api];
+    if (on) {
+      map.enableDragMap();
+    }
+    else {
+      map.disableDragMap();
+    }
+  },
 
-	setCenterAndZoom: function(point, zoom) { 
-		var map = this.maps[this.api];
-		var pt = point.toProprietary(this.api);
-		var vzoom =  zoom;
-		map.SetCenterAndZoom(new VELatLong(point.lat,point.lon), vzoom);
-	},
-	
-	addMarker: function(marker, old) {
-		var map = this.maps[this.api];
-		marker.pinID = "mspin-"+new Date().getTime()+'-'+(Math.floor(Math.random()*Math.pow(2,16)));
-		var pin = marker.toProprietary(this.api);
-		
-		map.AddShape(pin);
-		//give onclick event
-		//give on double click event
-		//give on close window
-		//return the marker
-				
-		return pin;
-	},
+  setCenterAndZoom: function(point, zoom) { 
+    var map = this.maps[this.api];
+    var pt = point.toProprietary(this.api);
+    var vzoom =  zoom;
+    map.SetCenterAndZoom(new VELatLong(point.lat,point.lon), vzoom);
+  },
+  
+  addMarker: function(marker, old) {
+    var map = this.maps[this.api];
+    marker.pinID = "mspin-"+new Date().getTime()+'-'+(Math.floor(Math.random()*Math.pow(2,16)));
+    var pin = marker.toProprietary(this.api);
+    
+    map.AddShape(pin);
+    //give onclick event
+    //give on double click event
+    //give on close window
+    //return the marker
+        
+    return pin;
+  },
 
-	removeMarker: function(marker) {
-		var map = this.maps[this.api];
-		var id = marker.proprietary_marker.GetID();
-		var microsoftShape = map.GetShapeByID(id);
-		map.DeleteShape(microsoftShape);
-	},
-	
-	declutterMarkers: function(opts) {
-		var map = this.maps[this.api];
-		
-		// TODO: Add provider code
-	},
+  removeMarker: function(marker) {
+    var map = this.maps[this.api];
+    var id = marker.proprietary_marker.GetID();
+    var microsoftShape = map.GetShapeByID(id);
+    map.DeleteShape(microsoftShape);
+  },
+  
+  declutterMarkers: function(opts) {
+    var map = this.maps[this.api];
+    
+    // TODO: Add provider code
+  },
 
 	addPolyline: function(polyline, old) {
 		var map = this.maps[this.api];
@@ -153,131 +153,131 @@ Mapstraction: {
 		return pl;
 	},
 
-	removePolyline: function(polyline) {
-		var map = this.maps[this.api];
-		var id = polyline.proprietary_polyline.GetID();
-		var microsoftShape = map.GetShapeByID(id);
-		map.DeleteShape(microsoftShape);
-	},
-	
-	getCenter: function() {
-		var map = this.maps[this.api];
-		var LL = map.GetCenter();
-		var point = new mxn.LatLonPoint(LL.Latitude, LL.Longitude);
-		return point;
-	},
+  removePolyline: function(polyline) {
+    var map = this.maps[this.api];
+    var id = polyline.proprietary_poly.GetID();
+    var microsoftShape = map.GetShapeByID(id);
+    map.DeleteShape(microsoftShape);
+  },
+  
+  getCenter: function() {
+    var map = this.maps[this.api];
+    var LL = map.GetCenter();
+    var point = new mxn.LatLonPoint(LL.Latitude, LL.Longitude);
+    return point;
+  },
  
-	setCenter: function(point, options) {
-		var map = this.maps[this.api];
-		var pt = point.toProprietary(this.api);
-		map.SetCenter(new VELatLong(point.lat, point.lon));
-	},
+  setCenter: function(point, options) {
+    var map = this.maps[this.api];
+    var pt = point.toProprietary(this.api);
+    map.SetCenter(new VELatLong(point.lat, point.lon));
+  },
 
-	setZoom: function(zoom) {
-		var map = this.maps[this.api];
-		map.SetZoomLevel(zoom);
-	},
-	
-	getZoom: function() {
-		var map = this.maps[this.api];
-		var zoom = map.GetZoomLevel();
-		return zoom;
-	},
+  setZoom: function(zoom) {
+    var map = this.maps[this.api];
+    map.SetZoomLevel(zoom);
+  },
+  
+  getZoom: function() {
+    var map = this.maps[this.api];
+    var zoom = map.GetZoomLevel();
+    return zoom;
+  },
 
-	getZoomLevelForBoundingBox: function( bbox ) {
-		var map = this.maps[this.api];
-		// NE and SW points from the bounding box.
-		var ne = bbox.getNorthEast();
-		var sw = bbox.getSouthWest();
-		var zoom;
-		
-		// TODO: Add provider code
-		
-		return zoom;
-	},
+  getZoomLevelForBoundingBox: function( bbox ) {
+    var map = this.maps[this.api];
+    // NE and SW points from the bounding box.
+    var ne = bbox.getNorthEast();
+    var sw = bbox.getSouthWest();
+    var zoom;
+    
+    // TODO: Add provider code
+    
+    return zoom;
+  },
 
-	setMapType: function(type) {
-		var map = this.maps[this.api];
-		switch(type) {
-			case mxn.Mapstraction.ROAD:
-				map.SetMapStyle(VEMapStyle.Road);
-				break;
-			case mxn.Mapstraction.SATELLITE:
-				map.SetMapStyle(VEMapStyle.Aerial);
-				break;
-			case mxn.Mapstraction.HYBRID:
-				map.SetMapStyle(VEMapStyle.Hybrid);
-				break;
-			default:
-				map.SetMapStyle(VEMapStyle.Road);
-		}	 
-	},
+  setMapType: function(type) {
+    var map = this.maps[this.api];
+    switch(type) {
+      case mxn.Mapstraction.ROAD:
+        map.SetMapStyle(VEMapStyle.Road);
+        break;
+      case mxn.Mapstraction.SATELLITE:
+        map.SetMapStyle(VEMapStyle.Aerial);
+        break;
+      case mxn.Mapstraction.HYBRID:
+        map.SetMapStyle(VEMapStyle.Hybrid);
+        break;
+      default:
+        map.SetMapStyle(VEMapStyle.Road);
+    }   
+  },
 
-	getMapType: function() {
-		var map = this.maps[this.api];
-		var mode = map.GetMapStyle();
-		switch(mode){
-			case VEMapStyle.Aerial:
-				return mxn.Mapstraction.SATELLITE;
-			case VEMapStyle.Road:
-				return mxn.Mapstraction.ROAD;
-			case VEMapStyle.Hybrid:
-				return mxn.Mapstraction.HYBRID;
-			default:
-				return null;
-		}
-	},
+  getMapType: function() {
+    var map = this.maps[this.api];
+    var mode = map.GetMapStyle();
+    switch(mode){
+      case VEMapStyle.Aerial:
+        return mxn.Mapstraction.SATELLITE;
+      case VEMapStyle.Road:
+        return mxn.Mapstraction.ROAD;
+      case VEMapStyle.Hybrid:
+        return mxn.Mapstraction.HYBRID;
+      default:
+        return null;
+    }
+  },
 
-	getBounds: function () {
-		var map = this.maps[this.api];
-		view = map.GetMapView();
-		var topleft = view.TopLeftLatLong;
-		var bottomright = view.BottomRightLatLong;
-		
-		return new mxn.BoundingBox(bottomright.Latitude,topleft.Longitude,topleft.Latitude, bottomright.Longitude );
-	},
+  getBounds: function () {
+    var map = this.maps[this.api];
+    view = map.GetMapView();
+    var topleft = view.TopLeftLatLong;
+    var bottomright = view.BottomRightLatLong;
+    
+    return new mxn.BoundingBox(bottomright.Latitude,topleft.Longitude,topleft.Latitude, bottomright.Longitude );
+  },
 
-	setBounds: function(bounds){
-		var map = this.maps[this.api];
-		var sw = bounds.getSouthWest();
-		var ne = bounds.getNorthEast();
-		
-		var rec = new VELatLongRectangle(new VELatLong(ne.lat, ne.lon), new VELatLong(sw.lat, sw.lon));
-		map.SetMapView(rec);
-	},
+  setBounds: function(bounds){
+    var map = this.maps[this.api];
+    var sw = bounds.getSouthWest();
+    var ne = bounds.getNorthEast();
+    
+    var rec = new VELatLongRectangle(new VELatLong(ne.lat, ne.lon), new VELatLong(sw.lat, sw.lon));
+    map.SetMapView(rec);
+  },
 
-	addImageOverlay: function(id, src, opacity, west, south, east, north, oContext) {
-		var map = this.maps[this.api];
-		
-		// TODO: Add provider code
-	},
+  addImageOverlay: function(id, src, opacity, west, south, east, north, oContext) {
+    var map = this.maps[this.api];
+    
+    // TODO: Add provider code
+  },
 
-	setImagePosition: function(id, oContext) {
-		var map = this.maps[this.api];
-		var topLeftPoint; var bottomRightPoint;
+  setImagePosition: function(id, oContext) {
+    var map = this.maps[this.api];
+    var topLeftPoint; var bottomRightPoint;
 
-		// TODO: Add provider code
+    // TODO: Add provider code
 
-		//	oContext.pixels.top = ...;
-		//	oContext.pixels.left = ...;
-		//	oContext.pixels.bottom = ...;
-		//	oContext.pixels.right = ...;
-	},
-	
-	addOverlay: function(url, autoCenterAndZoom) {
-		var map = this.maps[this.api];
-		var layer = new VEShapeLayer(); 
-		var mlayerspec = new VEShapeSourceSpecification(VEDataType.GeoRSS, url, layer);
-	 	map.ImportShapeLayerData(mlayerspec);
-	},
+    //  oContext.pixels.top = ...;
+    //  oContext.pixels.left = ...;
+    //  oContext.pixels.bottom = ...;
+    //  oContext.pixels.right = ...;
+  },
+  
+  addOverlay: function(url, autoCenterAndZoom) {
+    var map = this.maps[this.api];
+    var layer = new VEShapeLayer(); 
+    var mlayerspec = new VEShapeSourceSpecification(VEDataType.GeoRSS, url, layer);
+     map.ImportShapeLayerData(mlayerspec);
+  },
 
-	addTileLayer: function(tile_url, opacity, copyright_text, min_zoom, max_zoom) {
-		throw 'Not implemented';
-	},
+  addTileLayer: function(tile_url, opacity, copyright_text, min_zoom, max_zoom) {
+    throw 'Not implemented';
+  },
 
-	toggleTileLayer: function(tile_url) {
-		throw 'Not implemented';
-	},
+  toggleTileLayer: function(tile_url) {
+    throw 'Not implemented';
+  },
 
 	getPixelRatio: function() {
 		throw 'Not implemented';
@@ -316,16 +316,16 @@ Mapstraction: {
 },
 
 LatLonPoint: {
-	
-	toProprietary: function() {
-		return  new VELatLong(this.lat, this.lon);
-	},
+  
+  toProprietary: function() {
+    return  new VELatLong(this.lat, this.lon);
+  },
 
-	fromProprietary: function(mpoint) {
-		this.lat = mpoint.Latitude;
-		this.lon = mpoint.Longitude;
-	}
-	
+  fromProprietary: function(mpoint) {
+    this.lat = mpoint.Latitude;
+    this.lon = mpoint.Longitude;
+  }
+  
 },
 
 Marker: {
@@ -384,10 +384,12 @@ Marker: {
 		return this.hidden || false;
 	},
 
-	update: function() {
-		throw 'Not implemented';
-	}
-	
+  update: function() {
+    var point = new mxn.LatLonPoint(this.proprietary_marker.Latitude,this.proprietary_marker.Longitude);
+    
+    this.location = point;
+  }
+  
 },
 
 Polyline: {
@@ -434,3 +436,10 @@ Polyline: {
 }
 
 });
+
+function colorToVEColor(color, opacity) {
+  var mxColor = new mxn.util.Color(color);
+  var mxOpacity = (typeof(opacity) == 'undefined' || opacity === null) ? 1.0 : opacity;
+  var vecolor = new VEColor(mxColor.red, mxColor.green, mxColor.blue, mxOpacity);
+  return vecolor;
+}

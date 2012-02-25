@@ -18,6 +18,7 @@ mxn.register('openlayers', {
 			
 			// initialize layers map (this was previously in mxn.core.js)
 			this.layers = {};
+<<<<<<< HEAD
 			
 			// holder for all info bubbles
 			this.proprietary_bubbles = [];
@@ -25,6 +26,40 @@ mxn.register('openlayers', {
 			// default road map: OpenStreetMap 
 			this.layers.road = new OpenLayers.Layer.OSM();
 			
+=======
+
+			this.layers.osm = new OpenLayers.Layer.TMS(
+				'OpenStreetMap',
+				[
+					"http://a.tile.openstreetmap.org/",
+					"http://b.tile.openstreetmap.org/",
+					"http://c.tile.openstreetmap.org/"
+				],
+				{
+					type:'png',
+					getURL: function (bounds) {
+						var res = this.map.getResolution();
+						var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+						var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+						var z = this.map.getZoom();
+						var limit = Math.pow(2, z);
+						if (y < 0 || y >= limit) {
+							return null;
+						} else {
+							x = ((x % limit) + limit) % limit;
+							var path = z + "/" + x + "/" + y + "." + this.type;
+							var url = this.url;
+							if (url instanceof Array) {
+								url = this.selectUrl(path, url);
+							}
+							return url + path;
+						}
+					},
+					displayOutsideMaxExtent: true
+				}
+			);
+						
+>>>>>>> upstream/master
 			// deal with click
 			map.events.register('click', map, function(evt){
 				var lonlat = map.getLonLatFromViewPortPx(evt.xy);
@@ -58,8 +93,12 @@ mxn.register('openlayers', {
 				}
 			}
 			
+<<<<<<< HEAD
 			map.addLayer(this.layers.road);
+=======
+			map.addLayer(this.layers.osm);
 			this.tileLayers.push(["http://a.tile.openstreetmap.org/", this.layers.osm, true]);
+>>>>>>> upstream/master
 			this.maps[api] = map;
 			this.loaded[api] = true;
 		},
@@ -397,17 +436,9 @@ mxn.register('openlayers', {
 
 		mousePosition: function(element) {
 			var map = this.maps[this.api];
-			var locDisp = document.getElementById(element);
-			if (locDisp !== null) {
-				map.events.register('mousemove', map, function (evt) {
-					var lonlat = map.getLonLatFromViewPortPx(evt.xy);
-					var point = new mxn.LatLonPoint();
-					point.fromProprietary('openlayers', lonlat);
-					var loc = point.lat.toFixed(4) + ' / ' + point.lon.toFixed(4);
-					locDisp.innerHTML = loc;
-				});
-			}
-			locDisp.innerHTML = '0.0000 / 0.0000';
+<<<<<<< HEAD
+
+			// TODO: Add provider code	
 		},
 
 		openBubble: function(point, content) {
@@ -443,6 +474,19 @@ mxn.register('openlayers', {
 					}
 				}
 			}
+=======
+			var locDisp = document.getElementById(element);
+			if (locDisp !== null) {
+				map.events.register('mousemove', map, function (evt) {
+					var lonlat = map.getLonLatFromViewPortPx(evt.xy);
+					var point = new mxn.LatLonPoint();
+					point.fromProprietary('openlayers', lonlat);
+					var loc = point.lat.toFixed(4) + ' / ' + point.lon.toFixed(4);
+					locDisp.innerHTML = loc;
+				});
+			}
+			locDisp.innerHTML = '0.0000 / 0.0000';
+>>>>>>> upstream/master
 		}
 	},
 
@@ -463,6 +507,7 @@ mxn.register('openlayers', {
 	Marker: {
 
 		toProprietary: function() {
+<<<<<<< HEAD
 			var me = this,
 				w = me.iconSize ? me.iconSize[0] : 21,
 				h =  me.iconSize ? me.iconSize[1] : 25,
@@ -493,6 +538,21 @@ mxn.register('openlayers', {
 				marker.events.register("mouseout", marker, function(event) {
 					marker.setUrl(iconUrl);
 				});
+=======
+			var size, anchor, popup;
+			if(this.iconSize) {
+				size = new OpenLayers.Size(this.iconSize[0], this.iconSize[1]);
+			}
+			else {
+				size = new OpenLayers.Size(21,25);
+			}
+
+			if(this.iconAnchor) {
+				anchor = new OpenLayers.Pixel(-this.iconAnchor[0], -this.iconAnchor[1]);
+			}
+			else {
+				anchor = new OpenLayers.Pixel(-(size.w/2), -size.h);
+>>>>>>> upstream/master
 			}
 			
 			marker.events.register('click', marker, function() {
@@ -502,6 +562,7 @@ mxn.register('openlayers', {
 			return marker;
 		},
 
+<<<<<<< HEAD
 		openBubble: function() {
 			// XXX: Do something if no infoBubble too
 			if (this.infoDiv){
@@ -518,9 +579,22 @@ mxn.register('openlayers', {
 				var anchor = this.proprietary_marker.icon;
 				var popup = this.proprietary_bubble = new OpenLayers.Popup.FramedCloud(
 					null,
+=======
+			if(this.iconUrl) {
+				this.icon = new OpenLayers.Icon(this.iconUrl, size, anchor);
+			}
+			else {
+				this.icon = new OpenLayers.Icon('http://openlayers.org/dev/img/marker-gold.png', size, anchor);
+			}
+			var marker = new OpenLayers.Marker(this.location.toProprietary("openlayers"), this.icon);
+
+			if(this.infoBubble) {
+				popup = new OpenLayers.Popup.FramedCloud(null,
+>>>>>>> upstream/master
 					this.location.toProprietary("openlayers"),
 					new OpenLayers.Size(300,200),
 					this.infoBubble,
+<<<<<<< HEAD
 					// correct for weird bubble placement
 					{
 						size: new OpenLayers.Size(10,10),
@@ -531,11 +605,11 @@ mxn.register('openlayers', {
 					},
 					true
 				);
+				popup.autoSize = true;
 				this.map.addPopup(popup);
 				popup.show();
 				this.openInfoBubble.fire({'marker': this});
 				mxn_map.proprietary_bubbles.push(popup);
-				this.popup = popup;
 			}
 		},
 
@@ -544,6 +618,74 @@ mxn.register('openlayers', {
 				this.proprietary_bubble.destroy();
 				this.closeInfoBubble.fire({'marker': this});
 				this.proprietary_bubble = null;
+=======
+					this.icon,
+					true
+				);
+				var theMap = this.map;
+				if(this.hover) {
+					marker.events.register("mouseover", marker, function(event) {
+						theMap.addPopup(popup);
+						popup.show();
+					});
+					marker.events.register("mouseout", marker, function(event) {
+						popup.hide();
+						theMap.removePopup(popup);
+					});
+				}
+				else {
+					var shown = false;
+					marker.events.register("mousedown", marker, function(event) {
+						if (shown) {
+							popup.hide();
+							theMap.removePopup(popup);
+							shown = false;
+						} else {
+							theMap.addPopup(popup);
+							popup.show();
+							shown = true;
+						}
+					});
+				}
+				this.popup = popup;
+			}
+			
+			//fire click event for marker
+			marker.events.register("click",marker,function(event) {
+				marker.mapstraction_marker.click.fire();
+			});
+
+			if(this.hoverIconUrl) {
+				icon = this.iconUrl || 'http://openlayers.org/dev/img/marker-gold.png';
+				hovericon = this.hoverIconUrl;
+				marker.events.register("mouseover", marker, function(event) {
+					marker.setUrl(hovericon);
+				});
+				marker.events.register("mouseout", marker, function(event) {
+					marker.setUrl(icon);
+				});
+			}
+
+			if(this.infoDiv){
+				// TODO
+			}
+			return marker;
+		},
+
+		openBubble: function() {		
+			if ( this.infoBubble ) {
+				// Need to create a new popup in case setInfoBubble has been called
+				this.popup = new OpenLayers.Popup.FramedCloud(null,
+					this.location.toProprietary("openlayers"),
+					new OpenLayers.Size(100,100),
+					this.infoBubble,
+					this.icon,
+					true
+				);
+			}
+
+			if ( this.popup ) {
+				this.map.addPopup( this.popup, true );
 			}
 		},
 
@@ -551,6 +693,7 @@ mxn.register('openlayers', {
 			if ( this.popup ) {
 				this.popup.hide();
 				this.map.removePopup( this.popup );
+>>>>>>> upstream/master
 			}
 		},
 
