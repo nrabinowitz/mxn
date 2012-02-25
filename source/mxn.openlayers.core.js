@@ -547,13 +547,6 @@ mxn.register('openlayers', {
 			}
 		},
 
-		closeBubble: function() {
-			if ( this.popup ) {
-				this.popup.hide();
-				this.map.removePopup( this.popup );
-			}
-		},
-
 		hide: function() {
 			this.proprietary_marker.display( false );
 		},

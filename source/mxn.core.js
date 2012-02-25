@@ -1389,25 +1389,17 @@ BoundingBox.prototype.toSpan = function() {
  * extend extends the bounding box to include the new point
  */
 BoundingBox.prototype.extend = function(point) {
-	if(this.sw.lat > point.lat) {
-		this.sw.lat = point.lat;
 	var box = this;
 	// checking undefined here allows extending an empty box
 	if (box.sw.lat === undefined || box.sw.lat > point.lat) {
 		box.sw.lat = point.lat;
 	}
-	if(this.sw.lon > point.lon) {
-		this.sw.lon = point.lon;
 	if (box.sw.lon === undefined || box.sw.lon > point.lon) {
 		box.sw.lon = point.lon;
 	}
-	if(this.ne.lat < point.lat) {
-		this.ne.lat = point.lat;
 	if (box.ne.lat === undefined || box.ne.lat < point.lat) {
 		box.ne.lat = point.lat;
 	}
-	if(this.ne.lon < point.lon) {
-		this.ne.lon = point.lon;
 	if (box.ne.lon === undefined || box.ne.lon < point.lon) {
 		box.ne.lon = point.lon;
 	}
